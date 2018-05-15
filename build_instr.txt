@@ -1,0 +1,5 @@
+- Set environment variables JAVA_HOME, LAUNCH4J_HOME, NSIS_HOME
+- Set PATH variable as follows: %JAVA_HOME%\bin;%NSIS_HOME%\NSIS
+- Run build-all.xml ant script
+- Run nsis-build.xml ant script (We do this separately, because it hangs if running in 
+  general suite for uknown reason)

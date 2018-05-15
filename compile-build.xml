@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build" name="compile-build">
+	<property environment="env" />
+	<property file="build.properties" />
+
+	<path id="BudgetSystem.classpath">
+		<pathelement location="${build.path}/classes" />
+		<fileset dir="${basedir}/lib" includes="*.jar" />
+	</path>
+
+	<target name="clean">
+		<delete dir="${build.path}" failonerror="false" />
+		<delete dir="${deploy.path}" failonerror="false" />
+		<delete dir="${jar.path}" failonerror="false" />
+	</target>
+	
+	<target name="init">
+		<mkdir dir="${build.path}/classes" />
+		<mkdir dir="${deploy.path}/lib" />
+		<mkdir dir="${jar.path}" />
+	</target>
+	
+	<target name="generate-sources" depends="init">
+		<copy todir="${src.path}/com/monyrama/ui/constants" overwrite="true">
+			<fileset dir="${basedir}/java-tmpl" includes="Version.java" />
+		    <filterset>
+		      <filter token="VERSION" value="${app.version}"/>
+		    </filterset>			
+		</copy>
+	</target>
+
+	<target name="build" depends="init, generate-sources">
+		<javac debug="${debug}" debuglevel="${debuglevel}" destdir="${build.path}/classes" source="${source}" target="${target}">
+			<src path="${src.path}" />
+			<classpath refid="BudgetSystem.classpath" />
+		</javac>
+		<copy todir="${build.path}/classes">
+			<fileset dir="${src.path}" includes="**/*.properties" />
+		</copy>
+		<copy todir="${build.path}/classes">
+			<fileset dir="${src.path}" includes="**/*.xml" />
+		</copy>
+		<copy todir="${build.path}/classes">
+			<fileset dir="${src.path}" includes="**/*.gif" />
+		</copy>
+		<copy todir="${build.path}/classes">
+			<fileset dir="${src.path}" includes="**/*.jpg" />
+		</copy>
+		<copy todir="${build.path}/classes">
+			<fileset dir="${src.path}" includes="**/*.png" />
+		</copy>
+	</target>
+
+	<target name="deploy" depends="build">
+		<jar destfile="${jar.path}/${jar.file}" basedir="${build.path}/classes" manifest="${basedir}/MANIFEST.MF" excludes="**/tests/**.*"/>
+
+		<copy todir="${deploy.path}/lib">
+			<fileset dir="${basedir}/lib" includes="*.jar" excludes="junit-4.8.2.jar"/>
+		</copy>
+		
+		<copy todir="${deploy.path}/lib">
+			<fileset dir="${basedir}/jar" includes="*.jar"/>
+		</copy>		
+
+		<copy file="${basedir}/releasenotes.txt" todir="${deploy.path}"/>
+		<copy file="${basedir}/ico/main.ico" todir="${deploy.path}"/>
+		<copy todir="${deploy.path}">
+			<fileset dir="${basedir}/nsis/script-tmpl" includes="*.nsi" />
+		    <filterset>
+		      <filter token="VERSION" value="${app.version}"/>
+		    </filterset>			
+		</copy>
+		<copy todir="${deploy.path}/jre6">
+			<fileset dir="${basedir}/jre6" includes="**/**" />
+		</copy>
+	</target>
+
+</project>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="all" name="installer-build">
+	<property file="build.properties" />
+	
+	<taskdef name="nsis" classname="net.sf.nsisant.Task" classpath="nsis/nsisant-1.2.jar" />
+	
+	<target name="all" depends="windoes-installer, zip_all"/>
+		
+	<target name="windoes-installer">
+		<nsis script="${deploy.path}/install_jb.nsi" verbosity="4" noconfig="yes"/>
+	</target>
+	
+	<target name="zip_all">
+		  <zip destfile="${deploy.path}/Monyrama-ENG-${app.version}.zip"
+		  	   basedir="${deploy.path}"
+		       includes="MonyramaInstall_en_v${app.version}.exe"
+		  />
+		  <zip destfile="${deploy.path}/Monyrama-RUS-${app.version}.zip"
+			  	   basedir="${deploy.path}"
+			       includes="MonyramaInstall_ru_v${app.version}.exe"
+		  />
+		  <zip destfile="${deploy.path}/Monyrama-UKR-${app.version}.zip"
+		  	   basedir="${deploy.path}"
+		       includes="MonyramaInstall_uk_v${app.version}.exe"
+		  />
+		  <zip destfile="${deploy.path}/Monyrama-JB-ENG-${app.version}.zip"
+		  	   basedir="${deploy.path}"
+		       includes="Monyrama_JB_Install_en_v${app.version}.exe"
+		  />
+		  <zip destfile="${deploy.path}/Monyrama-JB-RUS-${app.version}.zip"
+			  	   basedir="${deploy.path}"
+			       includes="Monyrama_JB_Install_ru_v${app.version}.exe"
+		  />
+		  <zip destfile="${deploy.path}/Monyrama-JB-UKR-${app.version}.zip"
+		  	   basedir="${deploy.path}"
+		       includes="Monyrama_JB_Install_uk_v${app.version}.exe"
+		  />		
+	</target>
+	
+</project>

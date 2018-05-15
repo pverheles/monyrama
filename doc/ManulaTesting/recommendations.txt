@@ -1,0 +1,38 @@
+I. Layout
+
+1. Check the layout of components in different locales.
+2. Check how the layout is changed after resizing the main window or components inside.
+
+
+II. Saving entities.
+
+1. Check saving of entities.
+2. After saving of entities check that they are present in other windows/dialogs.
+3. If entity has a sum, check that sums of related entities have been changed and others sums are recalculated.
+
+III. Editing entities
+
+The same recomendations as for II, but replace the word 'saving' with 'editing'
+
+IV. Deleting entities
+
+The same recomendations as for II, but replace the word 'saving' with 'deleting'
+
+V. Export/Import
+
+Export DB and then import it, Check that all the entities that were in exported DB are present after importing.
+For this you should have all types of entities in the exported DB.
+
+VI. Localization.
+
+1. Check the localization of all the views and links (the simplest way is to compare bundle properties for different languages). Use I18nPropertiesTest for help.
+2. Check the localization of sum (with . or comma ,), especially in Edit dialogs
+
+VII. Validations
+
+Check all posible variations of data while saving and editing components. Pay attention to sum format (see VI.2)
+You should be able to save the sum in format x.y or x.yy. For example, 2.5 or 2.50, but the appearance should be only in the second format i. e. 2.50
+
+VIII. Instalators
+
+Check instalators for different languages and OS

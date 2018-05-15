@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="all" name="launch4j">
+	<property environment="env" />
+
+	<taskdef name="launch4j"
+	    classname="net.sf.launch4j.ant.Launch4jTask"
+	    classpath="C:/programs/Launch4j/launch4j.jar
+	        :C:/programs/Launch4j/lib/xstream.jar" />
+
+	<target name="all" depends="launch4j" />
+	
+	<target name="launch4j">
+		<launch4j configFile="launch4j_cfg.xml" />
+		<launch4j configFile="launch4j_cfg_jb.xml" />	
+	</target>
+
+</project>

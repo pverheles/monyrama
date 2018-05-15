@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="all" name="linux-build">
+	<property file="build.properties" />
+	
+	<target name="all" depends="copy_all"/>
+	
+	<target name="copy_all">
+		<mkdir dir="${deploy.path}/linux/Monyrama-${app.version}"/>
+		<copy todir="${deploy.path}/linux/Monyrama-${app.version}">
+			<fileset dir="${deploy.path}" includes="lib/*.*" />
+			<fileset dir="${basedir}/linux" includes="*" />
+		</copy>
+	</target>	
+</project>

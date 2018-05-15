@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="all" name="native-to-ascii-build">
+	<property file="build.properties" />
+
+	<target name="all" depends="native2ascii" />
+
+	<target name="native2ascii">
+		<native2ascii encoding="UTF-8" src="${i18n.path}" dest="${src.path}/com/monyrama/ui/resources" includes="**/*.properties" />
+	</target>
+</project>

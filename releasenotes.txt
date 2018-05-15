@@ -1,0 +1,11 @@
+Version 1.0
+
+[+] Initial version
+------------------------------------------------------------------------------------
+
+Version 1.1
+
+[+] Expense comment auto suggestion
+[+] Search of expenses by comment
+[+] View of transfers by period of dates
+[+] Creation of default expense categories during first start
