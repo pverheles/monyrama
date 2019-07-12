@@ -203,7 +203,7 @@ public abstract class ExpensePlanDialog extends EscapeDialog {
 	 * @param budgetToEdit
 	 */
 	public static void openEditDialog(PExpensePlan budgetToEdit, boolean editCurrency) {
-		ExpensePlanDialog editDialog = new EditBudgetDialog();	
+		ExpensePlanDialog editDialog = new EditExpensePlanDialog();
 		editDialog.expensePlan = budgetToEdit;
 		editDialog.currencyBox.setEnabled(editCurrency);
 		editDialog.updateCurrencyBox();

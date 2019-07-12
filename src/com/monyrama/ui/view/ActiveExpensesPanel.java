@@ -557,7 +557,7 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
 
         @Override
         public void actionPerformed(ActionEvent arg0) {
-            ExpensePlanDialog.openEditDialog(getSelectedExpensePlan(), itemsTableModel.getRowCount() == 0);            
+            ExpensePlanDialog.openEditDialog(getSelectedExpensePlan(), expensesTableModel.getRowCount() == 0);
         }
     }
     
