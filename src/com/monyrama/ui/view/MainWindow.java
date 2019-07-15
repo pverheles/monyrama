@@ -85,12 +85,12 @@ public class MainWindow extends JFrame {
 			Application.getApplication().setDockIconImage(MAIN_ICON);
 		}
 		createActions();
-		Application.getApplication().setAboutHandler(new AboutHandler() {
-			@Override
-			public void handleAbout(AppEvent.AboutEvent aboutEvent) {
-				showAboutDialogAction.actionPerformed(null);
-			}
-		});
+//		Application.getApplication().setAboutHandler(new AboutHandler() {
+//			@Override
+//			public void handleAbout(AppEvent.AboutEvent aboutEvent) {
+//				showAboutDialogAction.actionPerformed(null);
+//			}
+//		});
 	}
 
 	private void createActions() {
