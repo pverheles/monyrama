@@ -22,6 +22,7 @@ class NewCategoryDialog extends CategoryDialog {
 		PCategory newCategory = new PCategory();		
 		newCategory.setName(Trimmer.trim(nameField.getText()));
 		newCategory.setComment(Trimmer.trim(commentsField.getText()));
+		newCategory.setCalculateSumPerDay(calculateSumPerDayBox.isSelected());
 		
 		EntityValidator validator = new NewCategoryValidator(CategoryController.instance().getAll(), newCategory);
 		

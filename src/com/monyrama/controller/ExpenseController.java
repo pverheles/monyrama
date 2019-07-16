@@ -2,7 +2,6 @@ package com.monyrama.controller;
 
 import java.util.List;
 
-import com.monyrama.controller.HibernateUtil;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -45,5 +44,6 @@ public class ExpenseController extends MoneyMovementOutController<PExpense> {
 				return query.list();
 			}
 		});
-	}	
+	}
+
 }

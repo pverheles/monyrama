@@ -19,7 +19,8 @@ class EditCategoryDialog extends CategoryDialog {
 	protected void handleOkPressed() {
 		category.setName(Trimmer.trim(nameField.getText()));
 		category.setComment(Trimmer.trim(commentsField.getText()));
-		
+		category.setCalculateSumPerDay(calculateSumPerDayBox.isSelected());
+
 		EntityValidator validator = new EditCategoryValidator(CategoryController.instance().getAll(), category);
 		
 		if(validator.validate()) {

@@ -111,7 +111,7 @@ public class MainWindow extends JFrame {
 	/**
 	 * Paints the main window
 	 *
-	 * */
+	 */
 	public void init() {	
 		
 		buildMenuBar();

@@ -31,10 +31,11 @@ import com.monyrama.ui.resources.Resources;
  */
 public enum CategoryColumnEnum {
 	ID(0, "ID", 0), //This column should be invisible
-	NAME(1, Resources.getString("labels.name"), 0.3),
-	COMMENTS(2, Resources.getString("labels.comments"), 0.6),
-	BLOCKED(3, Resources.getString("labels.blocked"), 0.1);
-	private int index;	
+	NAME(1, Resources.getString("labels.name"), 0.25),
+	AVG_SUM_PER_DAY(2, Resources.getString("labels.avaragesumperday"), 0.15),
+	COMMENTS(3, Resources.getString("labels.comments"), 0.5),
+	BLOCKED(4, Resources.getString("labels.blocked"), 0.1);
+	private int index;
 	private String name;
 	private double width;
 
@@ -47,7 +48,7 @@ public enum CategoryColumnEnum {
 	 * @param name - name of the column
 	 * @param width - width of the column in percents.
 	 */	
-	private CategoryColumnEnum(int index, String name, double width) {
+	CategoryColumnEnum(int index, String name, double width) {
 		this.index = index;
 		this.name = name;
 		this.width = width;		

@@ -1,5 +1,6 @@
 package com.monyrama.ui.tables.model;
 
+import com.monyrama.controller.CategoryController;
 import com.monyrama.db.enumarations.EntityStates;
 import com.monyrama.entity.PCategory;
 import com.monyrama.ui.tables.columns.CategoryColumnEnum;
@@ -20,22 +21,30 @@ public class CategoryTableModel extends AbstractIdableTableModel<PCategory> {
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		PCategory unit = data.values().toArray(new PCategory[data.size()])[row];
+		PCategory category = data.values().toArray(new PCategory[data.size()])[row];
 
 		if(column == CategoryColumnEnum.ID.getIndex()) {
-			return unit.getId();
+			return category.getId();
 		}
 		
 		if(column == CategoryColumnEnum.NAME.getIndex()) {
-			return unit.getName();
+			return category.getName();
 		}
 		
 		if(column == CategoryColumnEnum.COMMENTS.getIndex()) {
-			return unit.getComment();
+			return category.getComment();
 		}
 		
 		if(column == CategoryColumnEnum.BLOCKED.getIndex()) {
-			return unit.getState() != null && unit.getState().equals(EntityStates.CLOSED.getCode());
+			return category.getState() != null && category.getState().equals(EntityStates.CLOSED.getCode());
+		}
+
+		if (column == CategoryColumnEnum.AVG_SUM_PER_DAY.getIndex()) {
+			if (category.getCalculateSumPerDay()) {
+				return CategoryController.instance().calculateAvarageExpenseSumPerDay(category);
+			}
+
+			return "-";
 		}
 		
 		System.out.println("Invalid column index: " + column);

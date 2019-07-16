@@ -405,7 +405,7 @@ public class CategoryPanel extends GeneralPanel {
     
 	private void changeCategoryState(EntityStates state) {
 		int row = table.getSelectedRow();
-        Long id = (Long) table.getValueAt(row, ExpensePlanItemColumnEnum.ID.getIndex());
+        Long id = (Long) table.getValueAt(row, CategoryColumnEnum.ID.getIndex());
         PCategory category = tableModel.getItemById(id);
         category.setState(state.getCode());
         CategoryController.instance().createOrUpdate(category);
