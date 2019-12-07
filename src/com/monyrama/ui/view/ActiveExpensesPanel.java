@@ -1,35 +1,22 @@
 package com.monyrama.ui.view;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JSeparator;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import com.monyrama.controller.ControllerListener;
@@ -58,7 +45,9 @@ import com.monyrama.ui.tables.columns.ExpensePlanItemColumnEnum;
 import com.monyrama.ui.utils.MyDialogs;
 import com.monyrama.utils.Calc;
 import com.monyrama.validator.util.StringSumValidator;
-
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 /**
  * Represents Active Expenses panel
@@ -85,6 +74,8 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
     private Action addExpenseAction;
     private Action editExpenseAction;
     private Action removeExpenseAction;
+
+    private Action importExpensesAction;
 
     private JPopupMenu popupMenuItems;
     private JPopupMenu popupMenuExpenses;
@@ -230,6 +221,15 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
 
         JButton removeExpenseButton = new JButton(removeExpenseAction);
         buttonPanel.add(removeExpenseButton);
+
+        JSeparator separator = new JSeparator(JSeparator.VERTICAL);
+        Dimension separatorDimension = new Dimension(1, removeExpenseButton.getPreferredSize().height);
+        separator.setPreferredSize(separatorDimension);
+        separator.setMinimumSize(separatorDimension);
+        buttonPanel.add(separator);
+
+        JButton importExpensesButton = new JButton(importExpensesAction);
+        buttonPanel.add(importExpensesButton);
 
         expensesPanel.add(buttonPanel, BorderLayout.NORTH);
 
@@ -446,6 +446,7 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
         addExpenseAction = new AddExpenseAction();
         editExpenseAction = new EditExpenseAction();
         removeExpenseAction = new RemoveExpenseAction();
+        importExpensesAction = new ImportExpensesAction();
 
         //------- Disable some actions in the beginning ----------
         editItemAction.setEnabled(false);
@@ -505,6 +506,8 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
         popupMenuExpenses.add(new JMenuItem(addExpenseAction));
         popupMenuExpenses.add(new JMenuItem(editExpenseAction));
         popupMenuExpenses.add(new JMenuItem(removeExpenseAction));
+        popupMenuExpenses.addSeparator();
+        popupMenuExpenses.add(new JMenuItem(importExpensesAction));
 
         MouseAdapter expensesMouseAdapter = new MouseAdapter() {
             @Override
@@ -789,6 +792,37 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
                 Long id = (Long) expensesTable.getValueAt(row, ExpenseColumnEnum.ID.getIndex());
                 PExpense expense = expensesTableModel.getItemById(id);
                 ExpenseController.instance().delete(expense);
+            }
+        }
+    }
+
+    private class ImportExpensesAction extends AbstractAction {
+        public ImportExpensesAction() {
+            super(Resources.getString("buttons.import"), Resources.getIcon("remove.png"));
+        }
+
+        public void actionPerformed(ActionEvent arg0) {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.addChoosableFileFilter(new FileFilter() {
+
+                @Override
+                public boolean accept(File f) {
+                    return f.isDirectory() || f.getName().endsWith(".xls");
+                }
+
+                @Override
+                public String getDescription() {
+                    return "PrivatBank statement";
+                }
+            });
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            int option = fileChooser.showOpenDialog(ActiveExpensesPanel.this);
+            if (option == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+
+
+
+                System.out.println(file.getAbsolutePath());
             }
         }
     }

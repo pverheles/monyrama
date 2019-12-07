@@ -1,0 +1,19 @@
+<component name="libraryTable">
+  <library name="lib1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/jre8mac/lib/management-agent.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jre8mac/lib/jfxswt.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jre8mac/lib/plugin.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jre8mac/lib/jfr.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jre8mac/lib/charsets.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jre8mac/lib/jsse.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jre8mac/lib/resources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jre8mac/lib/rt.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jre8mac/lib/javaws.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jre8mac/lib/deploy.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jre8mac/lib/jce.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="ext1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/jre6/lib/ext/sunpkcs11.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jre6/lib/ext/localedata.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jre6/lib/ext/sunmscapi.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jre6/lib/ext/sunjce_provider.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jre6/lib/ext/dnsns.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

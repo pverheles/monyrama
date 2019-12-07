@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="security1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/jre6/lib/security/US_export_policy.jar!/" />
+      <root url="jar://$PROJECT_DIR$/jre6/lib/security/local_policy.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
