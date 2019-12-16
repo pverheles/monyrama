@@ -2,7 +2,7 @@ package com.monyrama.importer;
 
 import java.math.BigDecimal;
 
-public class ImportExpense {
+public class ImportMoneyMovement {
     private String date;
     private String time;
     private String category;

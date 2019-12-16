@@ -14,25 +14,25 @@ import java.util.List;
 public class PrivateBankImportReader implements ImportReader {
 
     @Override
-    public List<ImportExpense> read(File file) {
-        List<ImportExpense> importExpenses = new ArrayList<>();
+    public List<ImportMoneyMovement> read(File file) {
+        List<ImportMoneyMovement> importMoneyMovements = new ArrayList<>();
         try {
             Workbook workbook = WorkbookFactory.create(new File(file.getAbsolutePath()));
             Sheet sheet = workbook.getSheetAt(0);
             for (int i = 2; i < sheet.getLastRowNum(); i++) {
-                ImportExpense importExpense = new ImportExpense();
-                importExpense.setDate(sheet.getRow(i).getCell(0).getStringCellValue());
-                importExpense.setTime(sheet.getRow(i).getCell(1).getStringCellValue());
-                importExpense.setCategory(sheet.getRow(i).getCell(2).getStringCellValue());
-                importExpense.setDescription(sheet.getRow(i).getCell(4).getStringCellValue());
-                importExpense.setSum(new BigDecimal(sheet.getRow(i).getCell(5).getNumericCellValue()).setScale(2, RoundingMode.HALF_UP));
-                importExpenses.add(importExpense);
+                ImportMoneyMovement importMoneyMovement = new ImportMoneyMovement();
+                importMoneyMovement.setDate(sheet.getRow(i).getCell(0).getStringCellValue());
+                importMoneyMovement.setTime(sheet.getRow(i).getCell(1).getStringCellValue());
+                importMoneyMovement.setCategory(sheet.getRow(i).getCell(2).getStringCellValue());
+                importMoneyMovement.setDescription(sheet.getRow(i).getCell(4).getStringCellValue());
+                importMoneyMovement.setSum(new BigDecimal(sheet.getRow(i).getCell(5).getNumericCellValue()).setScale(2, RoundingMode.HALF_UP));
+                importMoneyMovements.add(importMoneyMovement);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return importExpenses;
+        return importMoneyMovements;
     }
 
 }

@@ -4,5 +4,5 @@ import java.io.File;
 import java.util.List;
 
 public interface ImportReader {
-    List<ImportExpense> read(File file);
+    List<ImportMoneyMovement> read(File file);
 }

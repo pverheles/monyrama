@@ -21,16 +21,16 @@ public class PrivateBankImportReaderTest {
     @Test
     public void readSuccessfully() {
         File file = new File(PrivateBankImportReaderTest.class.getResource("/com/monyrama/importer/statements.xls").getPath());
-        List<ImportExpense> importExpenses = importReader.read(file);
-        assertEquals(34, importExpenses.size());
-        ImportExpense importExpense = importExpenses.get(4);
-        assertEquals("06.12.2019", importExpense.getDate());
-        assertEquals("14:24", importExpense.getTime());
-        assertEquals("Інше", importExpense.getCategory());
-        assertEquals("Покупка, МАГАЗИНЫ МОЛОЧНЫХ ПРОДУКТОВ: m.Kyiv", importExpense.getDescription());
-        assertEquals(0, new BigDecimal("-347.9").compareTo(importExpense.getSum()));
-        assertEquals(0, new BigDecimal("-924.41").compareTo(importExpenses.get(7).getSum()));
-        assertEquals(0, new BigDecimal("40000").compareTo(importExpenses.get(0).getSum()));
+        List<ImportMoneyMovement> importMoneyMovements = importReader.read(file);
+        assertEquals(34, importMoneyMovements.size());
+        ImportMoneyMovement importMoneyMovement = importMoneyMovements.get(4);
+        assertEquals("06.12.2019", importMoneyMovement.getDate());
+        assertEquals("14:24", importMoneyMovement.getTime());
+        assertEquals("Інше", importMoneyMovement.getCategory());
+        assertEquals("Покупка, МАГАЗИНЫ МОЛОЧНЫХ ПРОДУКТОВ: m.Kyiv", importMoneyMovement.getDescription());
+        assertEquals(0, new BigDecimal("-347.9").compareTo(importMoneyMovement.getSum()));
+        assertEquals(0, new BigDecimal("-924.41").compareTo(importMoneyMovements.get(7).getSum()));
+        assertEquals(0, new BigDecimal("40000").compareTo(importMoneyMovements.get(0).getSum()));
     }
 
 }
