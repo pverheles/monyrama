@@ -17,8 +17,8 @@ public class PrivateBankTemporaryImporter {
     private PExpensePlanItem expensePlanItem;
     private PAccount account;
 
-    long expensePlanItemId = 1L;
-    long accountId = 1L;
+    long expensePlanItemId = 1576528200036L;
+    long accountId = 1561114229197L;
 
     public void importExpenses(File file) {
         expensePlanItem = ExpensePlanItemController.instance().getById(expensePlanItemId);
@@ -31,18 +31,19 @@ public class PrivateBankTemporaryImporter {
 
         if (importMoneyMovements != null) {
             ExpenseController expenseController = ExpenseController.instance();
-            importMoneyMovements.stream().map(transformer::transform)
-                                .map(this::enrichExpense)
+            importMoneyMovements.stream()
+                                .filter(imm -> imm.getSum().signum() == -1)
+                                .peek(imm -> imm.setSum(imm.getSum().negate()))
+                                .peek(imm -> imm.setDescription(imm.getDescription().substring(0, Math.min(100, imm.getDescription().length()))))
+                                .map(transformer::transform)
+                                .peek(this::enrichExpense)
                                 .forEach(expenseController::create);
         }
     }
 
-    private PExpense enrichExpense(PExpense pExpense) {
+    private void enrichExpense(PExpense pExpense) {
         pExpense.setState(ACTIVE.getCode());
-
         pExpense.setExpensePlanItem(expensePlanItem);
         pExpense.setAccount(account);
-
-        return pExpense;
     }
 }
