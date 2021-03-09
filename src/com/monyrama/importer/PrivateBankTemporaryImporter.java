@@ -7,21 +7,38 @@ import com.monyrama.controller.ExpenseController;
 import com.monyrama.controller.ExpensePlanItemController;
 import com.monyrama.entity.PAccount;
 import com.monyrama.entity.PExpense;
+import com.monyrama.entity.PExpensePlan;
 import com.monyrama.entity.PExpensePlanItem;
 
+import com.monyrama.ui.utils.MyDialogs;
+import java.awt.Component;
 import java.io.File;
 import java.util.List;
 
 public class PrivateBankTemporaryImporter {
 
-    private PExpensePlanItem expensePlanItem;
+    private PExpensePlanItem defaultExpensePlanItem;
     private PAccount account;
 
-    long expensePlanItemId = 1576528200036L;
+    long expensePlanItemId = 1615057155460L;
     long accountId = 1561114229197L;
 
-    public void importExpenses(File file) {
-        expensePlanItem = ExpensePlanItemController.instance().getById(expensePlanItemId);
+    public void importExpenses(Component parent, PExpensePlan expensePlan, File file) {
+        List<PExpensePlanItem> expensePlanItems = ExpensePlanItemController.instance()
+            .listByExpensePlan(expensePlan);
+
+        for (PExpensePlanItem expensePlanItem : expensePlanItems) {
+            if (expensePlanItem.getCategory().getIsDefault()) {
+                defaultExpensePlanItem = expensePlanItem;
+                break;
+            }
+        }
+
+        if (defaultExpensePlanItem == null) {
+            MyDialogs.showWarningDialog(parent, "Couldn't find default expense plan item");
+            return;
+        }
+
         account = AccountController.instance().getById(accountId);
 
         ImportReader importReader = new PrivateBankImportReader();
@@ -43,7 +60,7 @@ public class PrivateBankTemporaryImporter {
 
     private void enrichExpense(PExpense pExpense) {
         pExpense.setState(ACTIVE.getCode());
-        pExpense.setExpensePlanItem(expensePlanItem);
+        pExpense.setExpensePlanItem(defaultExpensePlanItem);
         pExpense.setAccount(account);
     }
 }

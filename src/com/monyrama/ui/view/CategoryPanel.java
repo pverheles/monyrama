@@ -128,6 +128,13 @@ public class CategoryPanel extends GeneralPanel {
                     	blockAction.setEnabled(true);
                     	unblockAction.setEnabled(false);
                     }
+
+                    if (category.getIsDefault()) {
+                        blockAction.setEnabled(false);
+                        unblockAction.setEnabled(false);
+                        removeAction.setEnabled(false);
+                        editAction.setEnabled(false);
+                    }
                 }
             }
         });

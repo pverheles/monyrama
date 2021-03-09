@@ -1,5 +1,6 @@
 package com.monyrama.ui.dialogs;
 
+import com.monyrama.controller.ExpensePlanItemController;
 import com.monyrama.db.enumarations.EntityStates;
 import com.monyrama.entity.PCurrency;
 import com.monyrama.ui.utils.MyDialogs;
@@ -22,17 +23,18 @@ class NewExpensePlanDialog extends ExpensePlanDialog {
 
 	@Override
 	protected void handleOkPresses() {
-		PExpensePlan newBudget = new PExpensePlan();
-		newBudget.setName(Trimmer.trim(nameField.getText()));
-		newBudget.setState(EntityStates.ACTIVE.getCode());
-		newBudget.setCurrency((PCurrency)currencyBox.getSelectedItem());
-		newBudget.setComment(commentsField.getText());
+		PExpensePlan newExpensePlan = new PExpensePlan();
+		newExpensePlan.setName(Trimmer.trim(nameField.getText()));
+		newExpensePlan.setState(EntityStates.ACTIVE.getCode());
+		newExpensePlan.setCurrency(currencyBox.getSelectedItem());
+		newExpensePlan.setComment(commentsField.getText());
 
-		EntityValidator validator = new NewExpensePlanValidator(allBudgets(), newBudget);
+		EntityValidator validator = new NewExpensePlanValidator(allBudgets(), newExpensePlan);
 		
 		if(validator.validate()) {
-			expensePlan = newBudget;
+			expensePlan = newExpensePlan;
 			save();
+			ExpensePlanItemController.instance().createDefault(expensePlan);
 			setVisible(false);
 		} else {
 			MyDialogs.showWarningDialog(this, validator.message());

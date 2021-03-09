@@ -1,7 +1,9 @@
 package com.monyrama.controller;
 
+import com.monyrama.db.enumarations.EntityStates;
 import com.monyrama.entity.PCategory;
 import com.monyrama.entity.PExpense;
+import com.monyrama.ui.resources.Resources;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -67,7 +69,9 @@ public class CategoryController extends AbstractController<PCategory> {
                 avgSumQuery.setParameter("from", atStartOfDay(fromDate));
                 avgSumQuery.setParameter("to", atEndOfDay(today));
                 BigDecimal result = (BigDecimal) avgSumQuery.uniqueResult();
-                result = result.setScale(0, RoundingMode.HALF_UP);
+                if (result != null) {
+                  result = result.setScale(0, RoundingMode.HALF_UP);
+                }
                 return result;
             }
         });
@@ -91,5 +95,23 @@ public class CategoryController extends AbstractController<PCategory> {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
+    }
+
+    public PCategory getDefaultCategory() {
+        return HibernateUtil.queryInTransaction(new Resultable<PCategory>() {
+            @Override
+            public PCategory getResult(Session session) {
+                Query query = session.createQuery("SELECT category FROM PCategory category WHERE category.isDefault = true");
+                PCategory category = (PCategory)query.uniqueResult();
+                if (category == null) {
+                    category = new PCategory();
+                    category.setState(EntityStates.ACTIVE.getCode());
+                    category.setName(Resources.getString("category.default.name"));
+                    category.setIsDefault(true);
+                    instance().createOrUpdate(category);
+                }
+                return category;
+            }
+        });
     }
 }

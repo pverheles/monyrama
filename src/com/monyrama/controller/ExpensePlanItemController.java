@@ -1,5 +1,6 @@
 package com.monyrama.controller;
 
+import com.monyrama.utils.Trimmer;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -66,5 +67,16 @@ public class ExpensePlanItemController extends AbstractController<PExpensePlanIt
 				return name1.compareToIgnoreCase(name2);
 			}
 		});
+	}
+
+	public void createDefault(PExpensePlan expensePlan) {
+		PExpensePlanItem newItem = new PExpensePlanItem();
+
+		newItem.setState(EntityStates.ACTIVE.getCode());
+		newItem.setExpensePlan(expensePlan);
+		newItem.setCategory(CategoryController.instance().getDefaultCategory());
+		newItem.setSumStr("0");
+
+		createOrUpdate(newItem);
 	}
 }

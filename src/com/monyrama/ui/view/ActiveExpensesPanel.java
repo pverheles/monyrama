@@ -7,7 +7,6 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +45,6 @@ import com.monyrama.ui.tables.columns.ExpensePlanItemColumnEnum;
 import com.monyrama.ui.utils.MyDialogs;
 import com.monyrama.utils.Calc;
 import com.monyrama.validator.util.StringSumValidator;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 /**
  * Represents Active Expenses panel
@@ -291,18 +287,17 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
                 } else {
                     Long id = (Long) itemsTable.getValueAt(row, ExpensePlanItemColumnEnum.ID.getIndex());
 
-                    PExpensePlanItem bu = itemsTableModel.getItemById(id);
+                    PExpensePlanItem expensePlanItem = itemsTableModel.getItemById(id);
 
                     //We cannot delete budget units that have some spent units (expenses)
-                    //List<PSpentUnit> spentUnits = SpentUnitController.instance().listByBudgetUnit(bu);
-                    Set<PExpense> spentUnits = expensesTableModel.getSpentUnitsByBudgetUnit(bu);
+                    Set<PExpense> spentUnits = expensesTableModel.getSpentUnitsByBudgetUnit(expensePlanItem);
                     if (spentUnits.size() == 0) {
                         removeItemAction.setEnabled(true);
                     } else {
                         removeItemAction.setEnabled(false);
                     }
 
-                    if (bu.getState().equals(EntityStates.CLOSED.getCode())) {
+                    if (expensePlanItem.getState().equals(EntityStates.CLOSED.getCode())) {
                         blockItemAction.setEnabled(false);
                         editItemAction.setEnabled(false);
                         equalItemAction.setEnabled(false);
@@ -313,6 +308,13 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
                         equalItemAction.setEnabled(true);
                         unblockItemAction.setEnabled(false);
                     }
+
+                    if (expensePlanItem.getCategory().getIsDefault()) {
+                        blockItemAction.setEnabled(false);
+                        unblockItemAction.setEnabled(false);
+                        editItemAction.setEnabled(false);
+                        removeItemAction.setEnabled(false);
+                    }
                 }
             }
         });
@@ -321,7 +323,7 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
     @Override
 	public void initOnVisible() {
 		super.initOnVisible();		
-        checkIfThoughOneBudgetExists();		
+        checkIfThoughOneBudgetExists();
 		enableOrDisableAddExpenses();		
 		updateNewAsCopyActionState();		
 	}
@@ -822,7 +824,7 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
                 File file = fileChooser.getSelectedFile();
 
                 PrivateBankTemporaryImporter privateBankTemporaryImporter = new PrivateBankTemporaryImporter();
-                privateBankTemporaryImporter.importExpenses(file);
+                privateBankTemporaryImporter.importExpenses(ActiveExpensesPanel.this, getSelectedExpensePlan(), file);
             }
         }
     }

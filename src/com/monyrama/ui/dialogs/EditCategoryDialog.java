@@ -20,6 +20,7 @@ class EditCategoryDialog extends CategoryDialog {
 		category.setName(Trimmer.trim(nameField.getText()));
 		category.setComment(Trimmer.trim(commentsField.getText()));
 		category.setCalculateSumPerDay(calculateSumPerDayBox.isSelected());
+		category.setKeywords(keywordsArea.getText());
 
 		EntityValidator validator = new EditCategoryValidator(CategoryController.instance().getAll(), category);
 		

@@ -24,6 +24,7 @@ import com.monyrama.ui.resources.Resources;
  *
  */
 public abstract class CategoryDialog extends EscapeDialog {
+	protected JTextArea keywordsArea;
 	protected JTextFieldLimited commentsField;
 	protected JTextFieldLimited nameField;
 	protected JCheckBox calculateSumPerDayBox;
@@ -105,12 +106,31 @@ public abstract class CategoryDialog extends EscapeDialog {
 		gridBagConstraints_31.gridx = 2;
 		getContentPane().add(calculateSumPerDayBox, gridBagConstraints_31);
 
+		final JLabel keywordsLabel = new JLabel();
+		keywordsLabel.setText(Resources.getString("labels.keywords") + ":");
+		final GridBagConstraints gridBagConstraints_22 = new GridBagConstraints();
+		gridBagConstraints_22.insets = new Insets(0, 0, 10, 0);
+		gridBagConstraints_22.anchor = GridBagConstraints.NORTHWEST;
+		gridBagConstraints_22.gridy = 3;
+		gridBagConstraints_22.gridx = 1;
+		getContentPane().add(keywordsLabel, gridBagConstraints_22);
+
+		keywordsArea = new JTextArea();
+		JScrollPane keywordsAreaScrollPane = new JScrollPane (keywordsArea);
+		keywordsAreaScrollPane.setPreferredSize(new Dimension(200, 150));
+		final GridBagConstraints gridBagConstraints_32 = new GridBagConstraints();
+		gridBagConstraints_32.insets = new Insets(0, 5, 10, 0);
+		gridBagConstraints_32.anchor = GridBagConstraints.WEST;
+		gridBagConstraints_32.gridy = 3;
+		gridBagConstraints_32.gridx = 2;
+		getContentPane().add(keywordsAreaScrollPane, gridBagConstraints_32);
+
 		JPanel explainPanel = new ExplainPanel();
 		final GridBagConstraints gridBagConstraints_4 = new GridBagConstraints();
 		gridBagConstraints_4.insets = new Insets(0, 10, 0, 0);
 		gridBagConstraints_4.anchor = GridBagConstraints.WEST;
 		gridBagConstraints_4.gridwidth = 3;
-		gridBagConstraints_4.gridy = 3;
+		gridBagConstraints_4.gridy = 4;
 		gridBagConstraints_4.gridx = 0;
 		getContentPane().add(explainPanel, gridBagConstraints_4);		
 		
@@ -119,7 +139,7 @@ public abstract class CategoryDialog extends EscapeDialog {
 		gridBagConstraints_5.fill = GridBagConstraints.HORIZONTAL;
 		gridBagConstraints_5.insets = new Insets(0, 0, 10, 0);
 		gridBagConstraints_5.gridwidth = 3;
-		gridBagConstraints_5.gridy = 4;
+		gridBagConstraints_5.gridy = 5;
 		gridBagConstraints_5.gridx = 0;
 		getContentPane().add(sep, gridBagConstraints_5);
 				
@@ -139,7 +159,7 @@ public abstract class CategoryDialog extends EscapeDialog {
         
         final GridBagConstraints gridBagConstraints_6 = new java.awt.GridBagConstraints();
 		gridBagConstraints_6.gridx = 0;
-		gridBagConstraints_6.gridy = 5;
+		gridBagConstraints_6.gridy = 6;
 		gridBagConstraints_6.gridwidth = 3;
 		gridBagConstraints_6.anchor = GridBagConstraints.CENTER;
 		gridBagConstraints_6.insets = new java.awt.Insets(0, 0, 10, 0);
@@ -167,7 +187,9 @@ public abstract class CategoryDialog extends EscapeDialog {
 	
 	private void cleanFields() {
 		nameField.setText("");
-		commentsField.setText("");		
+		commentsField.setText("");
+		calculateSumPerDayBox.setSelected(false);
+		keywordsArea.setText("");
 	}
 
 	/**
@@ -194,6 +216,7 @@ public abstract class CategoryDialog extends EscapeDialog {
 		nameField.setText(category.getName());
 		commentsField.setText(category.getComment());
 		calculateSumPerDayBox.setSelected(category.getCalculateSumPerDay());
+		keywordsArea.setText(category.getKeywords());
 	}
 	
 	@Override

@@ -148,6 +148,9 @@ public class MainController {
         
         //Configure database
         HibernateUtil.configureApp();
+
+        // Create default category, if not existing
+        CategoryController.instance().getDefaultCategory();
         
         splashScreen.setProgress(10);
         
@@ -173,11 +176,7 @@ public class MainController {
 
         splashScreen.setProgress(80);
 
-        //view.setDebtsPanel(new DebtPanel());
-
         splashScreen.setProgress(85);
-
-        //view.setLendsPanel(new LendPanel());
 
         splashScreen.setProgress(90);
 
@@ -186,13 +185,6 @@ public class MainController {
         scheduleExchangeRateUpdate();
 
         splashScreen.setProgress(100);
-
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
 
         //Disposing of the splash screen
         splashScreen.dispose();
@@ -212,7 +204,7 @@ public class MainController {
 			SettingController.instance().createOrUpdate(versionSetting);
 			
 			createDefaultCurrency();
-			createDefaultCategories();
+			createSampleCategories();
 		}
 	}
 	
@@ -264,7 +256,7 @@ public class MainController {
 		});
 	}    
 
-    private void createDefaultCategories() {
+    private void createSampleCategories() {
         //Create though one category if needed
         if (CategoryController.instance().countAll() == 0) {
 			for(String categoryName : Resources.getCommaSeparatedStrings("firststart.categories")) {
