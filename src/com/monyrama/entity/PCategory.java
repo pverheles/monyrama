@@ -1,7 +1,10 @@
 package com.monyrama.entity;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Representation of DB object of a category
@@ -39,5 +42,20 @@ public class PCategory extends BaseEntity {
 
     public void setKeywords(String keywords) {
         this.keywords = keywords;
+    }
+
+    public Set<String> keywordsSetLower() {
+        Set<String> keywordsSet = new HashSet<>();
+        if (keywords != null) {
+            String[] split = keywords.split("\\r?\\n");
+            for (String keyword : split) {
+                if (StringUtils.isBlank(keyword)) {
+                    continue;
+                }
+
+                keywordsSet.add(keyword.trim().toLowerCase());
+            }
+        }
+        return keywordsSet;
     }
 }

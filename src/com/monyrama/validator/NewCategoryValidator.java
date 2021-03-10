@@ -14,15 +14,9 @@ public class NewCategoryValidator extends AbstractCategoryValidator {
 	}
 
 	@Override
-	protected boolean isNameEqualToExisting() {
-		for (PCategory cat : categoryList) {
-			if (StringValidator.areEqualEgnoreCase(cat.getName(), category.getName())) {
-				setMessage(Resources.getString("dialogs.warnings.categorynameexist")	+ "!");
-				return true;
-			}
-		}
-		
-		return false;
+	protected Collection<PCategory> filterCategoryList() {
+		return categoryList;
 	}
+
 
 }

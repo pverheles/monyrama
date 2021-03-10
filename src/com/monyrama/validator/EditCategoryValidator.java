@@ -1,5 +1,6 @@
 package com.monyrama.validator;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import com.monyrama.entity.PCategory;
@@ -14,14 +15,15 @@ public class EditCategoryValidator extends AbstractCategoryValidator {
 	}
 
 	@Override
-	protected boolean isNameEqualToExisting() {
+	protected Collection<PCategory> filterCategoryList() {
+		Collection<PCategory> filteredCategoryList = new ArrayList<>();
 		for (PCategory cat : categoryList) {
-			if (!cat.equals(category) && StringValidator.areEqualEgnoreCase(cat.getName(), category.getName())) {
-				setMessage(Resources.getString("dialogs.warnings.categorynameexist")	+ "!");
-				return true;
+			if (!cat.equals(category)) {
+				filteredCategoryList.add(cat);
 			}
 		}
-		
-		return false;
+
+		return filteredCategoryList;
 	}
+
 }
