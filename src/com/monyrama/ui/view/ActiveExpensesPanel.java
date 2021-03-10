@@ -801,7 +801,7 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
 
     private class ImportExpensesAction extends AbstractAction {
         public ImportExpensesAction() {
-            super(Resources.getString("buttons.import"), Resources.getIcon("remove.png"));
+            super(Resources.getString("buttons.import"), Resources.getIcon("import.png"));
         }
 
         public void actionPerformed(ActionEvent arg0) {
