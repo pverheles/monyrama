@@ -27,7 +27,7 @@ import com.monyrama.db.enumarations.EntityStates;
 import com.monyrama.entity.PExpense;
 import com.monyrama.entity.PExpensePlan;
 import com.monyrama.entity.PExpensePlanItem;
-import com.monyrama.importer.PrivateBankTemporaryImporter;
+import com.monyrama.importer.PrivateBankImporter;
 import com.monyrama.preferences.MyPreferences;
 import com.monyrama.preferences.PrefKeys;
 import com.monyrama.server.MobileDataListener;
@@ -823,8 +823,9 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
             if (option == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
 
-                PrivateBankTemporaryImporter privateBankTemporaryImporter = new PrivateBankTemporaryImporter();
-                privateBankTemporaryImporter.importExpenses(ActiveExpensesPanel.this, getSelectedExpensePlan(), file);
+                PrivateBankImporter privateBankImporter = new PrivateBankImporter();
+                privateBankImporter
+                    .importExpenses(ActiveExpensesPanel.this, getSelectedExpensePlan(), file);
             }
         }
     }
