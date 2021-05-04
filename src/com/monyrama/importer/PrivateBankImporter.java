@@ -22,7 +22,6 @@ public class PrivateBankImporter {
   private PExpensePlanItem defaultExpensePlanItem;
   private PAccount account;
 
-  long expensePlanItemId = 1615057155460L;
   long accountId = 1561114229197L;
 
   public void importExpenses(Component parent, PExpensePlan expensePlan, File file) {
