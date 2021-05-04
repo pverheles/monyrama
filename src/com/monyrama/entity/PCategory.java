@@ -35,7 +35,7 @@ public class PCategory extends BaseEntity {
         isDefault = aDefault;
     }
 
-    @Column
+    @Column(length = 5000)
     public String getKeywords() {
         return keywords;
     }
