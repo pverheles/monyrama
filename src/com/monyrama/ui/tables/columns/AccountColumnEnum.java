@@ -4,10 +4,11 @@ import com.monyrama.ui.resources.Resources;
 
 public enum AccountColumnEnum {
 	ID(0, "ID", 0), //This column should be invisible
-	NAME(1, Resources.getString("labels.name"), 0.15),
-	SUM(2, Resources.getString("labels.sum"), 0.15),
-	CURRENCY(3, Resources.getString("labels.currency"), 0.15),	
-	COMMENTS(4, Resources.getString("labels.comments"), 0.5);
+	BANK(1, Resources.getString("labels.bank"), 0.1),
+	NAME(2, Resources.getString("labels.name"), 0.15),
+	SUM(3, Resources.getString("labels.sum"), 0.1),
+	CURRENCY(4, Resources.getString("labels.currency"), 0.15),
+	COMMENTS(5, Resources.getString("labels.comments"), 0.5);
 	private int index;
 	private String name;
 	private double width;

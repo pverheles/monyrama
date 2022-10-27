@@ -12,8 +12,6 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import com.apple.eawt.AboutHandler;
-import com.apple.eawt.AppEvent;
 import com.apple.eawt.Application;
 import com.monyrama.controller.HibernateUtil;
 import com.monyrama.controller.ServerOptionsController;

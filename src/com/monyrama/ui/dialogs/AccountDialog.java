@@ -11,13 +11,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
+import javax.swing.*;
 
 import com.monyrama.controller.AccountController;
 import com.monyrama.controller.ControllerListener;
 import com.monyrama.controller.CurrencyController;
+import com.monyrama.entity.AccountBank;
 import com.monyrama.entity.DBConstants;
 import com.monyrama.entity.PAccount;
 import com.monyrama.entity.PCurrency;
@@ -40,6 +39,7 @@ public abstract class AccountDialog extends EscapeDialog {
 	protected JTextFieldLimited nameField;
 	protected SumFieldWithCalc sumField;
 	protected ComboBombo<PCurrency> currencyBox;
+	protected JComboBox<AccountBank> bankBox;
 	//protected JCheckBox savingCheckbox;
 	protected JTextFieldLimited commentsField;
 	private TwoButtonsPanel buttonPanel;
@@ -116,15 +116,31 @@ public abstract class AccountDialog extends EscapeDialog {
 				CurrencyDialog.openNewDialog();
 			}
 		});
-		
+
 		gridy++;
-		JLabel astericsLabel3 = ComponentsHelper.createAstericsLabel();
+		final JLabel bankLabel = new JLabel();
+		bankLabel.setText(Resources.getString("labels.bank") + ":");
 		gridBagConstraints = new GridBagConstraints();
-		gridBagConstraints.insets = new Insets(0, 10, 10, 0);
+		gridBagConstraints.insets = new Insets(0, 0, 10, 0);
+		gridBagConstraints.anchor = GridBagConstraints.WEST;
 		gridBagConstraints.gridy = gridy;
-		gridBagConstraints.gridx = 0;
-		getContentPane().add(astericsLabel3, gridBagConstraints);
-		
+		gridBagConstraints.gridx = 1;
+		getContentPane().add(bankLabel, gridBagConstraints);
+
+		bankBox = new JComboBox<AccountBank>();
+		bankBox.addItem(null);
+		for (AccountBank accountBank : AccountBank.values()) {
+			bankBox.addItem(accountBank);
+		}
+		bankBox.setPreferredSize(DimensionConstants.STD_FIELD_DIMENSION);
+		gridBagConstraints = new GridBagConstraints();
+		gridBagConstraints.insets = new Insets(0, 5, 10, 10);
+		gridBagConstraints.anchor = GridBagConstraints.WEST;
+		gridBagConstraints.gridy = gridy;
+		gridBagConstraints.gridx = 2;
+		getContentPane().add(bankBox, gridBagConstraints);
+
+		gridy++;
 		final JLabel sumLabel = new JLabel();
 		sumLabel.setText(Resources.getString("labels.sum") + ":");
 		gridBagConstraints = new GridBagConstraints();
@@ -284,6 +300,7 @@ public abstract class AccountDialog extends EscapeDialog {
 		nameField.setText(account.getName());
 		sumField.setText(MyFormatter.formatNumberToLocal(account.getSumm().toPlainString()));
 		currencyBox.setSelectedItem(account.getCurrency());
+		bankBox.setSelectedItem(account.getAccountBank());
 		//savingCheckbox.setSelected(account.getSaving() != null && account.getSaving());
 		commentsField.setText(account.getComment());
 	}
@@ -294,7 +311,8 @@ public abstract class AccountDialog extends EscapeDialog {
 		PAccount accountFromFields = new PAccount();		
 		accountFromFields.setName(Trimmer.trim(nameField.getText()));
 		accountFromFields.setSumStr(Trimmer.trim(sumField.getText()));
-		accountFromFields.setCurrency((PCurrency)currencyBox.getSelectedItem());		
+		accountFromFields.setCurrency((PCurrency)currencyBox.getSelectedItem());
+		accountFromFields.setAccountBank((AccountBank)bankBox.getSelectedItem());
 		accountFromFields.setComment(Trimmer.trim(commentsField.getText()));
 		//accountFromFields.setSaving(savingCheckbox.isSelected());
 		accountFromFields.setSaving(false);

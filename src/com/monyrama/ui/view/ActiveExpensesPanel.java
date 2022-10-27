@@ -6,7 +6,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,6 @@ import java.util.Set;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import com.monyrama.controller.ControllerListener;
@@ -27,7 +25,6 @@ import com.monyrama.db.enumarations.EntityStates;
 import com.monyrama.entity.PExpense;
 import com.monyrama.entity.PExpensePlan;
 import com.monyrama.entity.PExpensePlanItem;
-import com.monyrama.importer.PrivateBankImporter;
 import com.monyrama.preferences.MyPreferences;
 import com.monyrama.preferences.PrefKeys;
 import com.monyrama.server.MobileDataListener;
@@ -35,10 +32,7 @@ import com.monyrama.server.MobileDataManager;
 import com.monyrama.sorter.NammableSorter;
 import com.monyrama.ui.components.CheckboxCell;
 import com.monyrama.ui.constants.ColorConstants;
-import com.monyrama.ui.dialogs.ExpenseDialog;
-import com.monyrama.ui.dialogs.ExpensePlanDialog;
-import com.monyrama.ui.dialogs.ExpensePlanItemDialog;
-import com.monyrama.ui.dialogs.NewExpensePlanAsCopyDialog;
+import com.monyrama.ui.dialogs.*;
 import com.monyrama.ui.resources.Resources;
 import com.monyrama.ui.tables.columns.ExpenseColumnEnum;
 import com.monyrama.ui.tables.columns.ExpensePlanItemColumnEnum;
@@ -805,28 +799,7 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
         }
 
         public void actionPerformed(ActionEvent arg0) {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.addChoosableFileFilter(new FileFilter() {
-
-                @Override
-                public boolean accept(File f) {
-                    return f.isDirectory() || f.getName().endsWith(".xls");
-                }
-
-                @Override
-                public String getDescription() {
-                    return "PrivatBank statement";
-                }
-            });
-            fileChooser.setAcceptAllFileFilterUsed(false);
-            int option = fileChooser.showOpenDialog(ActiveExpensesPanel.this);
-            if (option == JFileChooser.APPROVE_OPTION) {
-                File file = fileChooser.getSelectedFile();
-
-                PrivateBankImporter privateBankImporter = new PrivateBankImporter();
-                privateBankImporter
-                    .importExpenses(ActiveExpensesPanel.this, getSelectedExpensePlan(), file);
-            }
+            ImportExpensesDialog.openDialog(getSelectedExpensePlan());
         }
     }
         

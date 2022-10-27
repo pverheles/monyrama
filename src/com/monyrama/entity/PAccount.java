@@ -16,6 +16,7 @@ import com.monyrama.ui.utils.MyFormatter;
 public class PAccount extends SumEntity implements Summable {
 	private PCurrency currency;
 	private Boolean saving;
+	private AccountBank accountBank;
 
 	@Override
 	@ManyToOne(optional = false)
@@ -33,7 +34,15 @@ public class PAccount extends SumEntity implements Summable {
 
 	public void setSaving(Boolean saving) {
 		this.saving = saving;
-	}	
+	}
+
+	public AccountBank getAccountBank() {
+		return accountBank;
+	}
+
+	public void setAccountBank(AccountBank accountBank) {
+		this.accountBank = accountBank;
+	}
 
 	@Override
 	public String toString() {

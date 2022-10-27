@@ -25,7 +25,11 @@ public class AccountTableModel extends AbstractIdableTableModel<PAccount> {
 		if(column == AccountColumnEnum.ID.getIndex()) {
 			return account.getId();
 		}
-		
+
+		if(column == AccountColumnEnum.BANK.getIndex()) {
+			return account.getAccountBank() == null ? "" : account.getAccountBank().toString();
+		}
+
 		if(column == AccountColumnEnum.NAME.getIndex()) {
 			return account.getName();
 		}
