@@ -19,7 +19,7 @@ public class MonoBankImportReader implements ImportReader {
         try {
             Workbook workbook = WorkbookFactory.create(new File(file.getAbsolutePath()));
             Sheet sheet = workbook.getSheetAt(0);
-            for (int i = 20; i < sheet.getLastRowNum(); i++) {
+            for (int i = 22; i < sheet.getLastRowNum(); i++) {
                 ImportMoneyMovement importMoneyMovement = new ImportMoneyMovement();
                 String[] dateTime = sheet.getRow(i).getCell(0).getStringCellValue().split(" ");
                 importMoneyMovement.setDate(dateTime[0]);

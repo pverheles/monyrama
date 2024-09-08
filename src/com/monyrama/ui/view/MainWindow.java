@@ -79,9 +79,9 @@ public class MainWindow extends JFrame {
 	public MainWindow() {
 		super(Resources.getString("title"));
 		setIconImage(MAIN_ICON);
-		if(OSUtil.isMac()) {
-			Application.getApplication().setDockIconImage(MAIN_ICON);
-		}
+//		if(OSUtil.isMac()) {
+//			Application.getApplication().setDockIconImage(MAIN_ICON);
+//		}
 		createActions();
 //		Application.getApplication().setAboutHandler(new AboutHandler() {
 //			@Override
