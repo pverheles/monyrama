@@ -19,13 +19,14 @@ public class PrivateBankImportReader implements ImportReader {
         try {
             Workbook workbook = WorkbookFactory.create(new File(file.getAbsolutePath()));
             Sheet sheet = workbook.getSheetAt(0);
-            for (int i = 2; i < sheet.getLastRowNum(); i++) {
+            for (int i = 2; i < sheet.getLastRowNum() + 1; i++) {
                 ImportMoneyMovement importMoneyMovement = new ImportMoneyMovement();
-                importMoneyMovement.setDate(sheet.getRow(i).getCell(0).getStringCellValue());
-                importMoneyMovement.setTime(sheet.getRow(i).getCell(1).getStringCellValue());
-                importMoneyMovement.setCategory(sheet.getRow(i).getCell(2).getStringCellValue());
-                importMoneyMovement.setDescription(sheet.getRow(i).getCell(4).getStringCellValue());
-                importMoneyMovement.setSum(new BigDecimal(sheet.getRow(i).getCell(5).getNumericCellValue()).setScale(2, RoundingMode.HALF_UP));
+                String dateTimeStr = sheet.getRow(i).getCell(0).getStringCellValue();
+                importMoneyMovement.setDate(dateTimeStr.split(" ")[0]);
+                importMoneyMovement.setTime(dateTimeStr.split(" ")[1]);
+                importMoneyMovement.setCategory(sheet.getRow(i).getCell(1).getStringCellValue());
+                importMoneyMovement.setDescription(sheet.getRow(i).getCell(3).getStringCellValue());
+                importMoneyMovement.setSum(new BigDecimal(sheet.getRow(i).getCell(4).getNumericCellValue()).setScale(2, RoundingMode.HALF_UP));
                 importMoneyMovements.add(importMoneyMovement);
             }
         } catch (IOException e) {

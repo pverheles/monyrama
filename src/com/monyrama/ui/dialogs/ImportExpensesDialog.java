@@ -189,12 +189,12 @@ public class ImportExpensesDialog extends EscapeDialog {
 
                 @Override
                 public boolean accept(File f) {
-                    return f.isDirectory() || f.getName().endsWith(".xls");
+                    return f.isDirectory() || f.getName().endsWith(".xls") || f.getName().endsWith(".xlsx");
                 }
 
                 @Override
                 public String getDescription() {
-                    return "PrivatBank statement";
+                    return "Bank statement (xls or xlsx)";
                 }
             });
             fileChooser.setAcceptAllFileFilterUsed(false);
