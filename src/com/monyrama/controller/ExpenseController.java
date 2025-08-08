@@ -23,6 +23,19 @@ public class ExpenseController extends MoneyMovementOutController<PExpense> {
 		}
 		return instance;		
 	}
+
+	public void updateExpenseExpensePlanItem(final Long expenseId,
+											 final PExpensePlanItem expensePlanItem) {
+		PExpense expense = getById(expenseId);
+		HibernateUtil.doInTransaction(new Executable() {
+			@Override
+			public void execute(Session session) {
+				expense.setExpensePlanItem(expensePlanItem);
+				session.saveOrUpdate(expense);
+			}
+		});
+		fireCreatedOrUpdated(expense);
+	}
 	
 	public List<PExpense> listByExpensePlan(final PExpensePlan expensePlan) {
 		return HibernateUtil.queryInTransaction(new Resultable<List<PExpense>>() {

@@ -100,8 +100,8 @@ public class ClosedExpensesPanel extends AbstractExpensePanel {
 			
 			@Override
 			public void deleted(PExpensePlan budget) {
-	               nameBox.removeItem(budget);
-	                if (nameBox.getItemCount() == 0) {
+	               expensePlanBox.removeItem(budget);
+	                if (expensePlanBox.getItemCount() == 0) {
 	                    cleanBudgetFields();
 	                    disableActions();
 	                }
@@ -111,11 +111,11 @@ public class ClosedExpensesPanel extends AbstractExpensePanel {
 			@Override
 			public void createdOrUpdated(PExpensePlan budget) {
                 if(budget.getState().equals(EntityStates.CLOSED.getCode())) {
-                    nameBox.addItem(budget);
+                    expensePlanBox.addItem(budget);
                     enableActions();
                 } else if(budget.getState().equals(EntityStates.ACTIVE.getCode())) {
-                	if(nameBox.getItemCount() != 0 && getSelectedExpensePlan().equals(budget)) {
-                		nameBox.removeItem(budget);
+                	if(expensePlanBox.getItemCount() != 0 && getSelectedExpensePlan().equals(budget)) {
+                		expensePlanBox.removeItem(budget);
                 		checkIfThoughOneBudgetExists();
                 	}
                 }
@@ -127,17 +127,17 @@ public class ClosedExpensesPanel extends AbstractExpensePanel {
 
 	@Override
 	protected void loadExpensesPlans() {
-		nameBox.removeItemListener(nameBoxItemListener);
+		expensePlanBox.removeItemListener(nameBoxItemListener);
         List<PExpensePlan> activeExpensePlans = ExpensePlanController.instance().listClosed();        
         NammableSorter.sort(activeExpensePlans);
         for(PExpensePlan expensePlan : activeExpensePlans) {
-        	nameBox.addItem(expensePlan);
+        	expensePlanBox.addItem(expensePlan);
         }		
-        nameBox.addItemListener(nameBoxItemListener);
+        expensePlanBox.addItemListener(nameBoxItemListener);
 	}
 	
 	private void checkIfThoughOneBudgetExists() {
-		if (nameBox.getItemCount() == 0) {
+		if (expensePlanBox.getItemCount() == 0) {
 		    cleanBudgetFields();
 		    disableActions();
 		} else {

@@ -9,18 +9,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.swing.AbstractAction;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.RowSorter;
+import javax.swing.*;
 import javax.swing.RowSorter.SortKey;
-import javax.swing.SortOrder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -28,7 +18,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import com.monyrama.ui.view.TableColumnsUtil;
+import com.monyrama.controller.ControllerListener;
 import com.monyrama.controller.ExpenseController;
 import com.monyrama.controller.ExpensePlanController;
 import com.monyrama.controller.ExpensePlanItemController;
@@ -66,7 +56,7 @@ abstract class AbstractExpensePanel extends GeneralPanel {
 	protected ExpenseTableModel expensesTableModel = new ExpenseTableModel();
 	protected ExpenseItemTableModel itemsTableModel = new ExpenseItemTableModel(expensesTableModel);	
 	
-	protected JComboBox nameBox;
+	protected JComboBox expensePlanBox;
 	protected JLabel plannedSumValueLabel;
 	protected JLabel currencyValueLabel;
 	protected JLabel balanceValueLabel;	
@@ -90,7 +80,7 @@ abstract class AbstractExpensePanel extends GeneralPanel {
 	protected NameBoxItemListener nameBoxItemListener;
 
 	Color BALANCE_VALUE_LABEL_COLOR;
-	
+
 	/**
 	 * Create the panel
 	 */
@@ -164,16 +154,16 @@ abstract class AbstractExpensePanel extends GeneralPanel {
 		gridBagConstraints_3.gridx = 1;
 		leftTopPanel.add(emptyLabel, gridBagConstraints_3);
 
-		nameBox = new JComboBox(new UniqueSortedComboboxModel<PExpensePlan>());
-		nameBox.setMinimumSize(DimensionConstants.STD_FIELD_DIMENSION);
-		nameBox.setMaximumSize(DimensionConstants.STD_FIELD_DIMENSION);
-		nameBox.setPreferredSize(DimensionConstants.STD_FIELD_DIMENSION);
+		expensePlanBox = new JComboBox(new UniqueSortedComboboxModel<PExpensePlan>());
+		expensePlanBox.setMinimumSize(DimensionConstants.STD_FIELD_DIMENSION);
+		expensePlanBox.setMaximumSize(DimensionConstants.STD_FIELD_DIMENSION);
+		expensePlanBox.setPreferredSize(DimensionConstants.STD_FIELD_DIMENSION);
 		final GridBagConstraints gridBagConstraints_1 = new GridBagConstraints();
 		gridBagConstraints.insets = new Insets(2, 0, 5, 0);
 		gridBagConstraints_1.anchor = GridBagConstraints.WEST;
 		gridBagConstraints_1.gridy = 0;
 		gridBagConstraints_1.gridx = 2;
-		leftTopPanel.add(nameBox, gridBagConstraints_1);
+		leftTopPanel.add(expensePlanBox, gridBagConstraints_1);
 
 		final JLabel label = new JLabel();
 		final GridBagConstraints gridBagConstraints_4 = new GridBagConstraints();
@@ -408,7 +398,7 @@ abstract class AbstractExpensePanel extends GeneralPanel {
 		expensesPane = new JScrollPane();
 		centerPanel.add(expensesPane, BorderLayout.CENTER);
 
-		expensesTable = new MyJTable();
+		expensesTable = createExpensesTable();
 		expensesTable.setSelectionBackground(ColorConstants.SELECTED_BACKGROUND);
 		expensesTable.setSelectionForeground(ColorConstants.SELECTED_FOREGROUND);
 		expensesPane.setViewportView(expensesTable);
@@ -424,7 +414,11 @@ abstract class AbstractExpensePanel extends GeneralPanel {
 		
 		return expensesPanel;		
 	}
-	
+
+	protected MyJTable createExpensesTable() {
+		return new MyJTable();
+	}
+
 	/**
 	 * Paints the south panel and returns it
 	 * 
@@ -441,7 +435,7 @@ abstract class AbstractExpensePanel extends GeneralPanel {
 	 */
 	protected void addListeners() {
 		nameBoxItemListener = new NameBoxItemListener();
-		nameBox.addItemListener(nameBoxItemListener);
+		expensePlanBox.addItemListener(nameBoxItemListener);
 		
 		tabbedPane.addChangeListener(new ChangeListener() {			
 			@Override
@@ -599,7 +593,7 @@ abstract class AbstractExpensePanel extends GeneralPanel {
 
 	
 	protected PExpensePlan getSelectedExpensePlan() {
-		PExpensePlan budget = (PExpensePlan) nameBox.getSelectedItem();
+		PExpensePlan budget = (PExpensePlan) expensePlanBox.getSelectedItem();
 		return budget;
 	}
 	
@@ -639,7 +633,7 @@ abstract class AbstractExpensePanel extends GeneralPanel {
 
 	protected void enableOrDisableChartsButton() {
 		//if(getSelectedBudget() == null) {
-		if(nameBox.getItemCount() == 0) {
+		if(expensePlanBox.getItemCount() == 0) {
 			chartsButton.setEnabled(false);
 		} else {
 			chartsButton.setEnabled(true);

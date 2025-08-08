@@ -1,11 +1,7 @@
 package com.monyrama.ui.view;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +27,7 @@ import com.monyrama.server.MobileDataListener;
 import com.monyrama.server.MobileDataManager;
 import com.monyrama.sorter.NammableSorter;
 import com.monyrama.ui.components.CheckboxCell;
+import com.monyrama.ui.components.MyJTable;
 import com.monyrama.ui.constants.ColorConstants;
 import com.monyrama.ui.dialogs.*;
 import com.monyrama.ui.resources.Resources;
@@ -70,6 +67,8 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
 
     private JPopupMenu popupMenuItems;
     private JPopupMenu popupMenuExpenses;
+
+    private JComboBox<PExpensePlanItem> expensePlanItemComboBox;
 
     public ActiveExpensesPanel() {
         super();        
@@ -229,6 +228,21 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
             expensesTable.getColumn(ExpenseColumnEnum.values()[i].getName()).setCellRenderer(cellRenderer);
         }
 
+        // Make envelope column as drop down
+        expensePlanItemComboBox = new JComboBox<>();
+        expensesTable.getColumnModel().getColumn(ExpenseColumnEnum.BUDGET_ITEM.getIndex())
+                .setCellEditor(new DefaultCellEditor(expensePlanItemComboBox));
+        ControllerListener<PExpensePlanItem> expensePlanItemListener = new ControllerListener<PExpensePlanItem>() {
+            @Override
+            public void deleted(PExpensePlanItem object) {}
+
+            @Override
+            public void createdOrUpdated(PExpensePlanItem item) {
+                updateExpensePlanItems();
+            }
+        };
+        ExpensePlanItemController.instance().addListener(expensePlanItemListener);
+
         return expensesPanel;
     }
 
@@ -236,12 +250,14 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
     protected void addListeners() {
         super.addListeners();
         
-		nameBox.addItemListener(new ItemListener() {
+		expensePlanBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent ev) {
 				if(ev.getStateChange() == ItemEvent.SELECTED) {
 					enableOrDisableAddExpenses();
 					
-					updateRemoveExpensePlanActionState(); 
+					updateRemoveExpensePlanActionState();
+
+                    updateExpensePlanItems();
 				}				
 			}
 		});
@@ -258,11 +274,13 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
                     if (su.getExpensePlanItem().getState().equals(EntityStates.CLOSED.getCode())) {
                         editExpenseAction.setEnabled(false);
                         removeExpenseAction.setEnabled(false);
+                        expensePlanItemComboBox.setEnabled(false);
                     } else {
                         editExpenseAction.setEnabled(true);
                         removeExpenseAction.setEnabled(true);
+                        expensePlanItemComboBox.setEnabled(true);
                     }
-
+                    expensePlanItemComboBox.setSelectedItem(su.getExpensePlanItem());
                 }
             }
         });
@@ -312,6 +330,24 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
                 }
             }
         });
+
+        expensePlanItemComboBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent ev) {
+                if(ev.getStateChange() == ItemEvent.SELECTED) {
+                    PExpensePlanItem expensePlanItem = (PExpensePlanItem) ev.getItem();
+                    int selectedRow = expensesTable.getSelectedRow();
+                    if (selectedRow == -1) {
+                        return;
+                    }
+                    Long id = (Long) expensesTable.getValueAt(selectedRow, ExpenseColumnEnum.ID.getIndex());
+                    PExpense expense = expensesTableModel.getItemById(id);
+                    if (!expense.getExpensePlanItem().equals(expensePlanItem)) {
+                        ExpenseController.instance().updateExpenseExpensePlanItem(id, expensePlanItem);
+                    }
+                }
+            }
+        });
     }
     
     @Override
@@ -319,7 +355,8 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
 		super.initOnVisible();		
         checkIfThoughOneBudgetExists();
 		enableOrDisableAddExpenses();		
-		updateNewAsCopyActionState();		
+		updateNewAsCopyActionState();
+        updateExpensePlanItems();
 	}
 
 
@@ -807,8 +844,8 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
     	ExpensePlanController.instance().addListener(new ControllerListener<PExpensePlan>() {			
 			@Override
 			public void deleted(PExpensePlan expensePlan) {
-				nameBox.removeItem(expensePlan);
-                if (nameBox.getItemCount() == 0) {
+				expensePlanBox.removeItem(expensePlan);
+                if (expensePlanBox.getItemCount() == 0) {
                     disableEditActions();
                 }
                 checkIfThoughOneBudgetExists();
@@ -819,18 +856,18 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
 			@Override
 			public void createdOrUpdated(PExpensePlan budget) {
                 if (budget.getState().equals(EntityStates.ACTIVE.getCode())) {
-                    nameBox.addItem(budget);
-                    nameBox.setSelectedItem(budget);
+                    expensePlanBox.addItem(budget);
+                    expensePlanBox.setSelectedItem(budget);
                     setUIBudgetFields();
                     updateSumsAndBalanceFields(getSelectedExpensePlan());
 
-                    if (nameBox.getItemCount() > 0) {
+                    if (expensePlanBox.getItemCount() > 0) {
                         enableEditActions();
                     }
                     
                     updateNewAsCopyActionState();
                 } else if (budget.getState().equals(EntityStates.CLOSED.getCode())) { //if budget closed
-                    nameBox.removeItem(budget);
+                    expensePlanBox.removeItem(budget);
                     checkIfThoughOneBudgetExists();
                 }	                
                 
@@ -927,7 +964,7 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
 	}
     
 	private void checkIfThoughOneBudgetExists() {
-		if (nameBox.getItemCount() == 0) {
+		if (expensePlanBox.getItemCount() == 0) {
 		    cleanBudgetFields();
 		    disableEditActions();
 		} else {
@@ -941,13 +978,13 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
 
 	@Override
 	protected void loadExpensesPlans() {
-		nameBox.removeItemListener(nameBoxItemListener);
+		expensePlanBox.removeItemListener(nameBoxItemListener);
         List<PExpensePlan> activeExpensePlans = ExpensePlanController.instance().listActive();        
         NammableSorter.sort(activeExpensePlans);
         for(PExpensePlan expensePlan : activeExpensePlans) {
-        	nameBox.addItem(expensePlan);
+        	expensePlanBox.addItem(expensePlan);
         }
-        nameBox.addItemListener(nameBoxItemListener);
+        expensePlanBox.addItemListener(nameBoxItemListener);
 	}	
 	
 	public void saveStateParams() {		
@@ -966,5 +1003,35 @@ public class ActiveExpensesPanel extends AbstractExpensePanel {
 		} else {
 			removeExpensePlanAction.setEnabled(false);
 		}
-	}	
+	}
+
+    @Override
+    protected MyJTable createExpensesTable() {
+        return new MyJTable() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                if (column != ExpenseColumnEnum.BUDGET_ITEM.getIndex()) {
+                    return false;
+                }
+
+                int selectedRow = expensesTable.getSelectedRow();
+                if (selectedRow == -1) {
+                    return false;
+                }
+                Long id = (Long) expensesTable.getValueAt(selectedRow, ExpenseColumnEnum.ID.getIndex());
+                PExpense expense = expensesTableModel.getItemById(id);
+                return expense.getExpensePlanItem().isActive(); // editable for open expense plan items (envelopes)
+            }
+        };
+    }
+
+    private void updateExpensePlanItems() {
+        expensePlanItemComboBox.removeAllItems();
+        List<PExpensePlanItem> openedEnvelopes =
+                ExpensePlanItemController.instance().
+                        listOpenedByExpensePlan((PExpensePlan) expensePlanBox.getSelectedItem());
+        for (PExpensePlanItem envelope : openedEnvelopes) {
+            expensePlanItemComboBox.addItem(envelope);
+        }
+    }
 }
