@@ -41,18 +41,10 @@ public class WelcomeDialog extends JDialog {
 		constraints.insets = new Insets(0, 0, 0, 30);
 		add(startLabel, constraints);
 		
-		ImageAndLinkLabel androidMBLabel = new ImageAndLinkLabel(Resources.getIcon("android-mb.png"), Resources.getString("help.androidmb"), Resources.getString("links.androidmb"));
-		constraints = new GridBagConstraints();
-		constraints.anchor = GridBagConstraints.CENTER;
-		constraints.gridx = 2;
-		constraints.gridy = 0;
-		constraints.insets = new Insets(0, 0, 0, 30);
-		add(androidMBLabel, constraints);
-		
 		ImageAndLinkLabel facebookLabel = new ImageAndLinkLabel(Resources.getIcon("facebook-big.png"), Resources.getString("help.facebook"), Resources.getString("links.facebook"));
 		constraints = new GridBagConstraints();
 		constraints.anchor = GridBagConstraints.CENTER;
-		constraints.gridx = 5;
+		constraints.gridx = 2;
 		constraints.gridy = 0;
 		constraints.insets = new Insets(0, 0, 0, 0);
 		add(facebookLabel, constraints);		

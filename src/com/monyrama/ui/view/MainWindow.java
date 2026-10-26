@@ -61,7 +61,7 @@ public class MainWindow extends JFrame {
 	private Action calculatorAction;
 	private Action passwordAction;
 	private Action openUpdatesActiion;
-	private Action openAndroidMBAction;
+
 	private Action openWelcomeAction;
 	private Action openFacebookAction;
 	private Action startServerAction;
@@ -83,12 +83,6 @@ public class MainWindow extends JFrame {
 //			Application.getApplication().setDockIconImage(MAIN_ICON);
 //		}
 		createActions();
-//		Application.getApplication().setAboutHandler(new AboutHandler() {
-//			@Override
-//			public void handleAbout(AppEvent.AboutEvent aboutEvent) {
-//				showAboutDialogAction.actionPerformed(null);
-//			}
-//		});
 	}
 
 	private void createActions() {
@@ -96,7 +90,6 @@ public class MainWindow extends JFrame {
 		exitAction = new ExitAction();
 		calculatorAction = new CalculatorAction();
 		passwordAction = new PasswordAction();
-		openAndroidMBAction = new OpenAndroidMBAction();
 		openUpdatesActiion = new OpenUpdatesAction();
 		openWelcomeAction = new OpenWelcomePanelAction();
 		openFacebookAction = new OpenFacebookAction();
@@ -282,7 +275,6 @@ public class MainWindow extends JFrame {
 		optionsMenu.add(dataFolderAction);
 		
 		helpMenu.add(openUpdatesActiion);
-		helpMenu.add(openAndroidMBAction);
 		helpMenu.addSeparator();
 		helpMenu.add(openWelcomeAction);			
 		helpMenu.add(showAboutDialogAction);
@@ -384,17 +376,6 @@ public class MainWindow extends JFrame {
 		}
 	}
 	
-	private class OpenAndroidMBAction extends AbstractAction {
-		public OpenAndroidMBAction() {
-			super(Resources.getString("help.androidmb"),  Resources.getIcon("android.png"));
-		}
-		
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			WebHelper.openURI(Resources.getString("links.androidmb"));			
-		}
-	}
-	
 	private class OpenFacebookAction extends AbstractAction {
 		public OpenFacebookAction() {
 			super(Resources.getString("help.facebook"),  Resources.getIcon("facebook-small.png"));
@@ -404,7 +385,7 @@ public class MainWindow extends JFrame {
 		public void actionPerformed(ActionEvent arg0) {
 			WebHelper.openURI(Resources.getString("links.facebook"));			
 		}
-	}	
+	}		
 	
 	private class OpenWelcomePanelAction extends AbstractAction {
 		public OpenWelcomePanelAction() {
