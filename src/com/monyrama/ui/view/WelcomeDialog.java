@@ -39,15 +39,7 @@ public class WelcomeDialog extends JDialog {
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 		constraints.insets = new Insets(0, 0, 0, 30);
-		add(startLabel, constraints);
-		
-		ImageAndLinkLabel facebookLabel = new ImageAndLinkLabel(Resources.getIcon("facebook-big.png"), Resources.getString("help.facebook"), Resources.getString("links.facebook"));
-		constraints = new GridBagConstraints();
-		constraints.anchor = GridBagConstraints.CENTER;
-		constraints.gridx = 2;
-		constraints.gridy = 0;
-		constraints.insets = new Insets(0, 0, 0, 0);
-		add(facebookLabel, constraints);		
+		add(startLabel, constraints);		
 		
 		final JCheckBox dontShowButton = new JCheckBox(Resources.getString("welcome.labels.dontshow"));
 		constraints = new GridBagConstraints();

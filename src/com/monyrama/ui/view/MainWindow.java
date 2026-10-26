@@ -63,7 +63,6 @@ public class MainWindow extends JFrame {
 	private Action openUpdatesActiion;
 
 	private Action openWelcomeAction;
-	private Action openFacebookAction;
 	private Action startServerAction;
 	private Action stopServerAction;
 	private Action openServerOptionsActions;
@@ -92,7 +91,6 @@ public class MainWindow extends JFrame {
 		passwordAction = new PasswordAction();
 		openUpdatesActiion = new OpenUpdatesAction();
 		openWelcomeAction = new OpenWelcomePanelAction();
-		openFacebookAction = new OpenFacebookAction();
 		startServerAction = new StartServerAction();
 		stopServerAction = new StopServerAction();
 		openServerOptionsActions = new OpenServerOptionsAction();
@@ -278,8 +276,6 @@ public class MainWindow extends JFrame {
 		helpMenu.addSeparator();
 		helpMenu.add(openWelcomeAction);			
 		helpMenu.add(showAboutDialogAction);
-		helpMenu.addSeparator();
-		helpMenu.add(openFacebookAction);
 				
 		menuBar.add(navigationMenu);
 		menuBar.add(toolsMenu);
@@ -375,17 +371,6 @@ public class MainWindow extends JFrame {
 			WebHelper.openURI(Resources.getString("links.updates"));			
 		}
 	}
-	
-	private class OpenFacebookAction extends AbstractAction {
-		public OpenFacebookAction() {
-			super(Resources.getString("help.facebook"),  Resources.getIcon("facebook-small.png"));
-		}
-		
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			WebHelper.openURI(Resources.getString("links.facebook"));			
-		}
-	}		
 	
 	private class OpenWelcomePanelAction extends AbstractAction {
 		public OpenWelcomePanelAction() {
