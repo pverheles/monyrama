@@ -256,18 +256,22 @@ public class MainWindow extends JFrame {
 		JMenu languageMenu = new JMenu(Resources.getString("language"));			
 		optionsMenu.add(languageMenu);
 		JMenuItem englishMenu = new JMenuItem(new ChangeLanguageAction(Resources.getString("language.english"), "en"));
+		JMenuItem ukrainianMenu = new JMenuItem(new ChangeLanguageAction(Resources.getString("language.ukrainian"), "uk"));
 		JMenuItem russianMenu = new JMenuItem(new ChangeLanguageAction(Resources.getString("language.russian"), "ru"));
-		JMenuItem ukrainianMenu = new JMenuItem(new ChangeLanguageAction(Resources.getString("language.ukrainian"), "uk"));		
+		JMenuItem spanishMenu = new JMenuItem(new ChangeLanguageAction(Resources.getString("language.spanish"), "es"));		
 		if(Resources.getLocale().getLanguage().equals("en")) {
 			englishMenu.setIcon(tickIcon);
-		} else if(Resources.getLocale().getLanguage().equals("ru")) {
-			russianMenu.setIcon(tickIcon);
 		} else if(Resources.getLocale().getLanguage().equals("uk")) {
 			ukrainianMenu.setIcon(tickIcon);
+		} else if(Resources.getLocale().getLanguage().equals("ru")) {
+			russianMenu.setIcon(tickIcon);
+		} else if(Resources.getLocale().getLanguage().equals("es")) {
+			spanishMenu.setIcon(tickIcon);
 		}
 		languageMenu.add(englishMenu);
-		languageMenu.add(russianMenu);
 		languageMenu.add(ukrainianMenu);
+		languageMenu.add(spanishMenu);
+		languageMenu.add(russianMenu);
 		optionsMenu.addSeparator();
 		optionsMenu.add(passwordAction);
 		optionsMenu.add(dataFolderAction);

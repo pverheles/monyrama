@@ -3,7 +3,7 @@
 	<target name="all">
 		<ant antfile="native2ascii-build.xml" />
 		<ant antfile="compile-build.xml" />
-		<ant antfile="launch4j-build.xml" />
+		<!-- ant antfile="launch4j-build.xml" /-->
 		<!--ant antfile="nsis-build.xml" /-->
 	</target>
 </project>

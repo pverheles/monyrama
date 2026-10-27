@@ -58,7 +58,10 @@ public class LanguageDialog extends EscapeDialog {
 		getContentPane().add(languageLabel, gridBagConstraints);
 
 		languageBox.setModel(new javax.swing.DefaultComboBoxModel(new Language[] {
-				new Language("English", "en"), new Language("Русский", "ru"), new Language("Українська", "uk")}));
+				new Language("English", "en"),
+				new Language("Українська", "uk"),
+				new Language("Español", "es"),
+				new Language("Русский", "ru")}));
 		gridBagConstraints = new java.awt.GridBagConstraints();
 		gridBagConstraints.gridx = 0;
 		gridBagConstraints.gridy = 1;

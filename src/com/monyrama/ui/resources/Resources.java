@@ -63,6 +63,7 @@ public class Resources {
 			locales.add(new Locale("en"));
 			locales.add(new Locale("ru"));
 			locales.add(new Locale("uk"));	
+			locales.add(new Locale("es"));
 		}
 	}
 	
@@ -120,7 +121,7 @@ public class Resources {
 			throw new IllegalArgumentException("Unsupported locale: " + loc.toString());
 		}
 		
-		if(loc.getLanguage().equals("uk") || loc.getLanguage().equals("ru")) {
+		if(loc.getLanguage().equals("uk") || loc.getLanguage().equals("ru") || loc.getLanguage().equals("es")) {
 			isSumDotSeparated = false;
 		} else {
 			isSumDotSeparated = true;
