@@ -99,10 +99,10 @@ public class MainController {
     public void start() {
     	String languageCode = MyPreferences.getString(PrefKeys.LANGUAGE_CODE);
     	if(languageCode == null) {    		
-    		Resources.setLocale(new Locale("en"));    		
+    		Resources.setLocale(Locale.of("en"));    		
     		new LanguageDialog().setVisible(true);	
     	} else {
-    		Resources.setLocale(new Locale(languageCode));
+    		Resources.setLocale(Locale.of(languageCode));
     	}
     	
     	String dataBaseFolderPath = MyPreferences.getString(PrefKeys.DATAFOLDER_PATH);

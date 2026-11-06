@@ -3,6 +3,7 @@ package com.monyrama.ui.view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Taskbar;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
@@ -12,7 +13,6 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import com.apple.eawt.Application;
 import com.monyrama.controller.HibernateUtil;
 import com.monyrama.controller.ServerOptionsController;
 import com.monyrama.preferences.MyPreferences;
@@ -78,9 +78,9 @@ public class MainWindow extends JFrame {
 	public MainWindow() {
 		super(Resources.getString("title"));
 		setIconImage(MAIN_ICON);
-//		if(OSUtil.isMac()) {
-//			Application.getApplication().setDockIconImage(MAIN_ICON);
-//		}
+		if (Taskbar.isTaskbarSupported() && Taskbar.getTaskbar().isSupported(Taskbar.Feature.ICON_IMAGE)) {
+			Taskbar.getTaskbar().setIconImage(MAIN_ICON);
+		}
 		createActions();
 	}
 

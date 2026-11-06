@@ -2,6 +2,7 @@ package com.monyrama.controller;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.URI;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -47,7 +48,7 @@ public class ExchangeRatesController {
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		try {
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			URL updateUrl = new URL(YAHOO_QUOTES_URL);
+			URL updateUrl = URI.create(YAHOO_QUOTES_URL).toURL();
 			InputStream is = updateUrl.openStream();
 			Document document = dBuilder.parse(is);
 			Element listElement = document.getDocumentElement();

@@ -69,7 +69,7 @@ Section "Monyrama"
 	File "lib\hibernate-commons-annotations-3.2.0.Final.jar"
 	File "lib\hibernate-jpa-2.0-api-1.0.1.Final.jar"
 	File "lib\hibernate3.jar"
-	File "lib\javassist-3.4.GA.jar"
+	File "lib\javassist-3.30.2-GA.jar"
 	File "lib\jcommon-1.0.17.jar"
 	File "lib\jetty-continuation-8.jar"
 	File "lib\jetty-http-8.jar"
@@ -890,7 +890,7 @@ Section "Uninstall"
 	Delete $INSTDIR\lib\hibernate-commons-annotations-3.2.0.Final.jar
 	Delete $INSTDIR\lib\hibernate-jpa-2.0-api-1.0.1.Final.jar
 	Delete $INSTDIR\lib\hibernate3.jar
-	Delete $INSTDIR\lib\javassist-3.4.GA.jar
+	Delete $INSTDIR\lib\javassist-3.30.2-GA.jar
 	Delete $INSTDIR\lib\jcommon-1.0.17.jar
 	Delete $INSTDIR\lib\jetty-continuation-8.jar
 	Delete $INSTDIR\lib\jetty-http-8.jar

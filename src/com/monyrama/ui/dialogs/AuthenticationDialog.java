@@ -129,7 +129,7 @@ public class AuthenticationDialog extends EscapeDialog {
 	void addListeners() {
 		buttonsPanel.setApproveListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String passwordStr = passwordField.getText();
+				String passwordStr = new String(passwordField.getPassword());
 				String enteredPasswordHash = PasswordEncoder.encode(passwordStr);
 				if(!realPasswordHash.equals(enteredPasswordHash)) {
 					MyDialogs.showWarningDialog(AuthenticationDialog.this, Resources.getString("dialogs.warnings.wrongpassword") + "!");

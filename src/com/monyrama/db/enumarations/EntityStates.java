@@ -1,8 +1,8 @@
 package com.monyrama.db.enumarations;
 
 public enum EntityStates {
-	ACTIVE(new Character('A')),
-	CLOSED(new Character('C'));
+	ACTIVE(Character.valueOf('A')),
+	CLOSED(Character.valueOf('C'));
 		
 	private Character code;
 

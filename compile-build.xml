@@ -6,7 +6,6 @@
 	<path id="BudgetSystem.classpath">
 		<pathelement location="${build.path}/classes" />
 		<fileset dir="${basedir}/lib" includes="*.jar" />
-		<fileset dir="jre8mac" includes="**/*.jar" />
 	</path>
 
 
@@ -32,7 +31,7 @@
 	</target>
 
 	<target name="build" depends="init, generate-sources">
-		<javac debug="${debug}" debuglevel="${debuglevel}" destdir="${build.path}/classes" source="1.8" target="1.8">
+		<javac debug="${debug}" debuglevel="${debuglevel}" destdir="${build.path}/classes" release="${java.release}" encoding="UTF-8" includeantruntime="false">
 			<src path="${src.path}" />
 			<classpath refid="BudgetSystem.classpath" />
 		</javac>
@@ -61,7 +60,7 @@
 		</copy>
 		
 		<copy todir="${deploy.path}/lib">
-			<fileset dir="${basedir}/jar" includes="*.jar"/>
+			<fileset dir="${jar.path}" includes="*.jar"/>
 		</copy>		
 
 		<copy file="${basedir}/releasenotes.txt" todir="${deploy.path}"/>

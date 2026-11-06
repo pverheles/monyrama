@@ -323,7 +323,7 @@ public class CategoryPanel extends GeneralPanel {
     }
     
 	private boolean isBlocked(PCategory category) {
-		return new Character(EntityStates.CLOSED.getCode()).equals(category.getState());
+		return EntityStates.CLOSED.getCode().equals(category.getState());
 	}
 
     /**

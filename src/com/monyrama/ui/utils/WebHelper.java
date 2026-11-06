@@ -69,7 +69,7 @@ public class WebHelper {
 
 			} else if (os.indexOf("mac") >= 0) {
 
-				rt.exec("open " + url);
+				rt.exec(new String[] { "open", url });
 
 			} else if (os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0) {
 

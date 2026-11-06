@@ -125,7 +125,7 @@ public class LanguageDialog extends EscapeDialog {
 	
 	private void handleOkPressed() {
 		Language language = (Language)languageBox.getSelectedItem();
-		Resources.setLocale(new Locale(language.code));
+		Resources.setLocale(Locale.of(language.code));
 		MyPreferences.save(PrefKeys.LANGUAGE_CODE, language.code);
 		dispose();
 	}

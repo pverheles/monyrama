@@ -148,7 +148,7 @@ public class PasswordDialog extends EscapeDialog {
 				}
 
 				if(turnOnPassword.isSelected()) {
-					String password = passwordField.getText();
+					String password = new String(passwordField.getPassword());
 					String passwordHash = PasswordEncoder.encode(password);
 					MyPreferences.save(PrefKeys.PASSWORD_HASH, passwordHash);
 				} else {
@@ -186,19 +186,21 @@ public class PasswordDialog extends EscapeDialog {
 
 	private boolean validateData() {
 		if(turnOnPassword.isSelected()) {
-			if(passwordField.getText() == null || passwordField.getText().equals("")) {
+			String password = new String(passwordField.getPassword());
+			String confirmation = new String(confirmPasswordField.getPassword());
+			if(password.isEmpty()) {
 				MyDialogs.showWarningDialog(dialog, Resources.getString("dialogs.warnings.emptypassword") + "!");
 				passwordField.requestFocus();
 				return false;
 			}
 			
-			if(passwordField.getText().length() > 20) {
+			if(password.length() > 20) {
 				MyDialogs.showWarningDialog(dialog, Resources.getString("dialogs.warnings.lengthcannotbemore20") + "!");
 				passwordField.requestFocus();
 				return false;
 			}
 			
-			if(!passwordField.getText().equals(confirmPasswordField.getText())) {
+			if(!password.equals(confirmation)) {
 				MyDialogs.showWarningDialog(dialog, Resources.getString("dialogs.warnings.passwordnotequalconfirmation") + "!");
 				confirmPasswordField.requestFocus();
 				return false;

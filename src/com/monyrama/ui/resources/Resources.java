@@ -60,10 +60,10 @@ public class Resources {
 	public static void initSupportedLocales() {
 		if(locales == null) {
 			locales = new ArrayList<Locale>();
-			locales.add(new Locale("en"));
-			locales.add(new Locale("ru"));
-			locales.add(new Locale("uk"));	
-			locales.add(new Locale("es"));
+			locales.add(Locale.of("en"));
+			locales.add(Locale.of("ru"));
+			locales.add(Locale.of("uk"));	
+			locales.add(Locale.of("es"));
 		}
 	}
 	
