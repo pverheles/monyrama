@@ -64,16 +64,6 @@
 		</copy>		
 
 		<copy file="${basedir}/releasenotes.txt" todir="${deploy.path}"/>
-		<copy file="${basedir}/ico/main.ico" todir="${deploy.path}"/>
-		<copy todir="${deploy.path}">
-			<fileset dir="${basedir}/nsis/script-tmpl" includes="*.nsi" />
-		    <filterset>
-		      <filter token="VERSION" value="${app.version}"/>
-		    </filterset>			
-		</copy>
-		<copy todir="${deploy.path}/jre6">
-			<fileset dir="${basedir}/jre6" includes="**/**" />
-		</copy>
 	</target>
 
 </project>

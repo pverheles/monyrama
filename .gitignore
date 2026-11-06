@@ -11,3 +11,7 @@ out/
 .idea_modules/
 
 *.log
+# Build output
+build/
+jar/
+deploy/

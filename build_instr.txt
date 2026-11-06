@@ -1,5 +1,5 @@
-- Set environment variables JAVA_HOME, LAUNCH4J_HOME, NSIS_HOME
-- Set PATH variable as follows: %JAVA_HOME%\bin;%NSIS_HOME%\NSIS
-- Run build-all.xml ant script
-- Run nsis-build.xml ant script (We do this separately, because it hangs if running in 
-  general suite for uknown reason)
+- Install JDK 25 and Apache Ant
+- Run build-all.xml ant script (regenerates i18n resources and compiles)
+- Run "ant -f compile-build.xml deploy" to build jar/budgetsystem.jar and
+  collect all jars in deploy/BudgetSystem/lib
+- Run mac-build.xml or linux-build.xml to assemble a runnable folder
