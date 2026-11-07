@@ -16,3 +16,6 @@ build/
 jar/
 deploy/
 dist/
+
+# Maven
+target/

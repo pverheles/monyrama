@@ -2,7 +2,7 @@ package com.monyrama.controller;
 
 import java.util.List;
 
-import org.hibernate.Query;
+import org.hibernate.query.SelectionQuery;
 import org.hibernate.Session;
 
 import com.monyrama.entity.PExpense;
@@ -31,7 +31,7 @@ public class ExpenseController extends MoneyMovementOutController<PExpense> {
 			@Override
 			public void execute(Session session) {
 				expense.setExpensePlanItem(expensePlanItem);
-				session.saveOrUpdate(expense);
+				HibernateUtil.saveOrUpdate(session, expense);
 			}
 		});
 		fireCreatedOrUpdated(expense);
@@ -41,7 +41,7 @@ public class ExpenseController extends MoneyMovementOutController<PExpense> {
 		return HibernateUtil.queryInTransaction(new Resultable<List<PExpense>>() {
 			@Override
 			public List<PExpense> getResult(Session session) {
-				Query query = session.createQuery("from " + PExpense.class.getSimpleName() + " expense where expense.expensePlanItem.expensePlan = :expensePlan");
+				SelectionQuery<PExpense> query = session.createSelectionQuery("from " + PExpense.class.getSimpleName() + " expense where expense.expensePlanItem.expensePlan = :expensePlan", PExpense.class);
 				query.setParameter("expensePlan", expensePlan);
 				return query.list();
 			}
@@ -52,7 +52,7 @@ public class ExpenseController extends MoneyMovementOutController<PExpense> {
 		return HibernateUtil.queryInTransaction(new Resultable<List<PExpense>>() {
 			@Override
 			public List<PExpense> getResult(Session session) {			
-				Query query = session.createQuery("from " + PExpense.class.getSimpleName() + " expense where expense.expensePlanItem = :expensePlanItem");
+				SelectionQuery<PExpense> query = session.createSelectionQuery("from " + PExpense.class.getSimpleName() + " expense where expense.expensePlanItem = :expensePlanItem", PExpense.class);
 				query.setParameter("expensePlanItem", expensePlanItem);
 				return query.list();
 			}

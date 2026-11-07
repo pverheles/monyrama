@@ -1,7 +1,7 @@
 package com.monyrama.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 
 import com.monyrama.entity.PCurrency;
 import com.monyrama.entity.Summable;

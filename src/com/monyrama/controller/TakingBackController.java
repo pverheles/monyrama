@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.monyrama.controller.HibernateUtil;
 import com.monyrama.controller.LendController;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.monyrama.entity.PLend;

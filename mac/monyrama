@@ -1,5 +1,0 @@
-#!/bin/sh
-cd "$(dirname "$0")"
-JAVA=java
-[ -x jre/bin/java ] && JAVA=jre/bin/java
-"$JAVA" -cp "lib/*" com.monyrama.application.Monyrama & exit

@@ -200,11 +200,11 @@ public class SendDataHandler implements RequestHandler {
                                     updatedEnvelopes.put(envelope.getId(), envelope);
                                 }
                                 expense.setId(UniqueID.get());
-                                session.save(expense);
+                                HibernateUtil.saveOrUpdate(session, expense);
                             }
 
                             for (PExpensePlanItem envelope : updatedEnvelopes.values()) {
-                                session.update(envelope);
+                                HibernateUtil.saveOrUpdate(session, envelope);
                             }
 
                             for (PIncome income : incomes) {
@@ -212,7 +212,7 @@ public class SendDataHandler implements RequestHandler {
                                 account.setSumm(account.getSumm().add(income.getSumm()));
                                 updatedAccounts.put(account.getId(), account);
                                 income.setId(UniqueID.get());
-                                session.save(income);
+                                HibernateUtil.saveOrUpdate(session, income);
                             }
 
                             for (PTransferOut transferOut : transfersOut) {
@@ -220,7 +220,7 @@ public class SendDataHandler implements RequestHandler {
                                 account.setSumm(account.getSumm().subtract(transferOut.getSumm()));
                                 updatedAccounts.put(account.getId(), account);
                                 transferOut.setId(UniqueID.get());
-                                session.save(transferOut);
+                                HibernateUtil.saveOrUpdate(session, transferOut);
                             }
 
                             for (PTransferIn transferIn : transfersIn) {
@@ -228,16 +228,16 @@ public class SendDataHandler implements RequestHandler {
                                 account.setSumm(account.getSumm().add(transferIn.getSumm()));
                                 updatedAccounts.put(account.getId(), account);
                                 transferIn.setId(UniqueID.get());
-                                session.save(transferIn);
+                                HibernateUtil.saveOrUpdate(session, transferIn);
                             }
 
                             for (PTransfer transfer : transfers) {
                                 transfer.setId(UniqueID.get());
-                                session.save(transfer);
+                                HibernateUtil.saveOrUpdate(session, transfer);
                             }
 
                             for (PAccount account : updatedAccounts.values()) {
-                                session.update(account);
+                                HibernateUtil.saveOrUpdate(session, account);
                             }
                         }
                     });

@@ -1,11 +1,9 @@
 package com.monyrama.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class PTransfer extends BaseEntity {
@@ -13,8 +11,7 @@ public class PTransfer extends BaseEntity {
 	private PTransferIn transferIn;
 
 	@JoinColumn(nullable = false)
-	@ManyToOne
-	@Cascade({CascadeType.DELETE})
+	@ManyToOne(cascade = CascadeType.REMOVE)
 	public PTransferOut getTransferOut() {
 		return transferOut;
 	}
@@ -24,8 +21,7 @@ public class PTransfer extends BaseEntity {
 	}
 
 	@JoinColumn(nullable = false)
-	@ManyToOne
-	@Cascade({CascadeType.DELETE})
+	@ManyToOne(cascade = CascadeType.REMOVE)
 	public PTransferIn getTransferIn() {
 		return transferIn;
 	}

@@ -1,1 +1,1 @@
-java -cp "lib/*" com.monyrama.application.Monyrama
+java -jar monyrama.jar

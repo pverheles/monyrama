@@ -4,7 +4,7 @@ import com.monyrama.db.enumarations.EntityStates;
 import com.monyrama.entity.PCategory;
 import com.monyrama.entity.PExpense;
 import com.monyrama.ui.resources.Resources;
-import org.hibernate.Query;
+import org.hibernate.query.SelectionQuery;
 import org.hibernate.Session;
 
 import java.math.BigDecimal;
@@ -40,10 +40,10 @@ public class CategoryController extends AbstractController<PCategory> {
             public BigDecimal getResult(Session session) {
                 String expense = PExpense.class.getSimpleName();
 
-                Query minDateQuery = session.createQuery("SELECT MIN(expense.lastChangeDate) FROM " + expense + " expense WHERE " +
-                        "expense.expensePlanItem.category = :category");
+                SelectionQuery<Date> minDateQuery = session.createSelectionQuery("SELECT MIN(expense.lastChangeDate) FROM " + expense + " expense WHERE " +
+                        "expense.expensePlanItem.category = :category", Date.class);
                 minDateQuery.setParameter("category", category);
-                Date minPastDate = (Date) minDateQuery.uniqueResult();
+                Date minPastDate = minDateQuery.uniqueResult();
 
                 if (minPastDate == null) {
                     return BigDecimal.ZERO;
@@ -62,13 +62,13 @@ public class CategoryController extends AbstractController<PCategory> {
 
                 daysPeriod = (int) ((today.getTime() / MILLISECONDS_IN_DAY) - (fromDate.getTime() / MILLISECONDS_IN_DAY)) + 1;
 
-                Query avgSumQuery = session.createQuery("SELECT SUM(expense.summ) / " + daysPeriod + " FROM " + expense + " expense WHERE " +
+                SelectionQuery<BigDecimal> avgSumQuery = session.createSelectionQuery("SELECT SUM(expense.summ) / " + daysPeriod + " FROM " + expense + " expense WHERE " +
                         "expense.expensePlanItem.category = :category " +
-                        "AND expense.lastChangeDate >= :from AND expense.lastChangeDate <= :to");
+                        "AND expense.lastChangeDate >= :from AND expense.lastChangeDate <= :to", BigDecimal.class);
                 avgSumQuery.setParameter("category", category);
                 avgSumQuery.setParameter("from", atStartOfDay(fromDate));
                 avgSumQuery.setParameter("to", atEndOfDay(today));
-                BigDecimal result = (BigDecimal) avgSumQuery.uniqueResult();
+                BigDecimal result = avgSumQuery.uniqueResult();
                 if (result != null) {
                   result = result.setScale(0, RoundingMode.HALF_UP);
                 }
@@ -101,8 +101,8 @@ public class CategoryController extends AbstractController<PCategory> {
         return HibernateUtil.queryInTransaction(new Resultable<PCategory>() {
             @Override
             public PCategory getResult(Session session) {
-                Query query = session.createQuery("SELECT category FROM PCategory category WHERE category.isDefault = true");
-                PCategory category = (PCategory)query.uniqueResult();
+                SelectionQuery<PCategory> query = session.createSelectionQuery("SELECT category FROM PCategory category WHERE category.isDefault = true", PCategory.class);
+                PCategory category = query.uniqueResult();
                 if (category == null) {
                     category = new PCategory();
                     category.setState(EntityStates.ACTIVE.getCode());

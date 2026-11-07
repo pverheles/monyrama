@@ -2,11 +2,7 @@ package com.monyrama.controller;
 
 import java.util.List;
 
-import com.monyrama.controller.HibernateUtil;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 
 import com.monyrama.db.enumarations.EntityStates;
 import com.monyrama.entity.PExpensePlan;
@@ -32,10 +28,11 @@ public class ExpensePlanController extends AbstractController<PExpensePlan> {
 		HibernateUtil.doInTransaction(new Executable() {
 			@Override
 			public void execute(Session session) {
-				Criteria expensePlanItemsCriteria = session.createCriteria(PExpensePlanItem.class);
-				expensePlanItemsCriteria.add(Restrictions.eq("expensePlan", copiedExpensePlan));
-				List<PExpensePlanItem> expensePlanItems = expensePlanItemsCriteria.list();
-				session.save(newExpensePlan);
+				List<PExpensePlanItem> expensePlanItems = session.createSelectionQuery(
+						"from PExpensePlanItem i where i.expensePlan = :expensePlan", PExpensePlanItem.class)
+						.setParameter("expensePlan", copiedExpensePlan)
+						.list();
+				HibernateUtil.saveOrUpdate(session, newExpensePlan);
 
 				for (PExpensePlanItem expensePlanItem : expensePlanItems) {
 					PExpensePlanItem newExpensePlanItem = new PExpensePlanItem();
@@ -48,7 +45,7 @@ public class ExpensePlanController extends AbstractController<PExpensePlan> {
 					newExpensePlanItem.setComment(expensePlanItem.getComment());
 
 					newExpensePlanItem.prepareToPersist();
-					session.save(newExpensePlanItem);
+					HibernateUtil.saveOrUpdate(session, newExpensePlanItem);
 				}
 			}
 		});

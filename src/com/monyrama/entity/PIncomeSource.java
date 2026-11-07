@@ -2,8 +2,8 @@ package com.monyrama.entity;
 
 import com.monyrama.entity.BaseEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class PIncomeSource extends BaseEntity {

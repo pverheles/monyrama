@@ -2,10 +2,7 @@ package com.monyrama.controller;
 
 import java.util.List;
 
-import com.monyrama.controller.HibernateUtil;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 import com.monyrama.db.enumarations.EntityStates;
 import com.monyrama.entity.PAccount;
@@ -31,10 +28,11 @@ public class AccountController extends AbstractController<PAccount> {
 		return HibernateUtil.queryInTransaction(new Resultable<List<PAccount>>() {
 			@Override
 			public List<PAccount> getResult(Session session) {
-				Criteria crit = session.createCriteria(PAccount.class);
-				crit.add(Restrictions.eq("state", EntityStates.ACTIVE.getCode()));
-				crit.add(Restrictions.eq("currency", currency));
-				List<PAccount> accounts = crit.list();
+				List<PAccount> accounts = session.createSelectionQuery(
+						"from PAccount a where a.state = :state and a.currency = :currency", PAccount.class)
+						.setParameter("state", EntityStates.ACTIVE.getCode())
+						.setParameter("currency", currency)
+						.list();
 				NammableSorter.sort(accounts);
 				return accounts;
 			}

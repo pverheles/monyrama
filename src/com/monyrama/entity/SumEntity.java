@@ -2,9 +2,9 @@ package com.monyrama.entity;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Transient;
 
 import com.monyrama.entity.DBConstants;
 import com.monyrama.ui.utils.MyFormatter;

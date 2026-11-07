@@ -2,8 +2,8 @@ package com.monyrama.entity;
 
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import org.apache.commons.lang3.StringUtils;
 
 /**

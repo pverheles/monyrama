@@ -24,8 +24,8 @@ class MoneyMovementOutController<T extends PMoneyMovementOut> extends AbstractCo
 		HibernateUtil.doInTransaction(new Executable() {
 			@Override
 			public void execute(Session session) {
-				session.save(moneyMovementOut);
-				session.update(account);
+				HibernateUtil.saveOrUpdate(session, moneyMovementOut);
+				HibernateUtil.saveOrUpdate(session, account);
 			}
 		});
 		fireCreatedOrUpdated(moneyMovementOut);
@@ -52,10 +52,10 @@ class MoneyMovementOutController<T extends PMoneyMovementOut> extends AbstractCo
 		HibernateUtil.doInTransaction(new Executable() {			
 			@Override
 			public void execute(Session session) {
-				session.update(mmOutNew);
-				session.update(mmOutOldAccount);
+				HibernateUtil.saveOrUpdate(session, mmOutNew);
+				HibernateUtil.saveOrUpdate(session, mmOutOldAccount);
 				if(!mmOutNewAccount.equals(mmOutOldAccount)) {
-					session.update(mmOutNewAccount);
+					HibernateUtil.saveOrUpdate(session, mmOutNewAccount);
 				}			
 			}
 		});
@@ -71,8 +71,8 @@ class MoneyMovementOutController<T extends PMoneyMovementOut> extends AbstractCo
 		HibernateUtil.doInTransaction(new Executable() {			
 			@Override
 			public void execute(Session session) {
-				session.delete(moneyMovementOut);
-				session.update(account);
+				HibernateUtil.delete(session, moneyMovementOut);
+				HibernateUtil.saveOrUpdate(session, account);
 			}
 		});
 		fireDeleted(moneyMovementOut);

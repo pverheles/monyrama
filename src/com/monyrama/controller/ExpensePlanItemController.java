@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.monyrama.controller.HibernateUtil;
-import org.hibernate.Query;
+import org.hibernate.query.SelectionQuery;
 import org.hibernate.Session;
 
 import com.monyrama.db.enumarations.EntityStates;
@@ -33,8 +33,8 @@ public class ExpensePlanItemController extends AbstractController<PExpensePlanIt
 		return HibernateUtil.queryInTransaction(new Resultable<List<PExpensePlanItem>>() {
 			@Override
 			public List<PExpensePlanItem> getResult(Session session) {
-				Query query = session.createQuery("from " + PExpensePlanItem.class.getSimpleName()
-						+ " expensePlanItem where expensePlanItem.expensePlan = :expensePlan and expensePlanItem.state = :state");
+				SelectionQuery<PExpensePlanItem> query = session.createSelectionQuery("from " + PExpensePlanItem.class.getSimpleName()
+						+ " expensePlanItem where expensePlanItem.expensePlan = :expensePlan and expensePlanItem.state = :state", PExpensePlanItem.class);
 				query.setParameter("expensePlan", expensePlan);
 				query.setParameter("state", EntityStates.ACTIVE.getCode());
 				List<PExpensePlanItem> list = query.list();
@@ -48,7 +48,7 @@ public class ExpensePlanItemController extends AbstractController<PExpensePlanIt
 		return HibernateUtil.queryInTransaction(new Resultable<List<PExpensePlanItem>>() {
 			@Override
 			public List<PExpensePlanItem> getResult(Session session) {
-				Query query = session.createQuery("from " + PExpensePlanItem.class.getSimpleName() + " expensePlanItem where expensePlanItem.expensePlan = :expensePlan");
+				SelectionQuery<PExpensePlanItem> query = session.createSelectionQuery("from " + PExpensePlanItem.class.getSimpleName() + " expensePlanItem where expensePlanItem.expensePlan = :expensePlan", PExpensePlanItem.class);
 				query.setParameter("expensePlan", expensePlan);
 				List<PExpensePlanItem> list = query.list();
 				sort(list);

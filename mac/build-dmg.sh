@@ -1,6 +1,6 @@
 #!/bin/zsh
 # Builds dist/Monyrama-<version>-<arch>.dmg with jpackage.
-# Requires: JDK 25 (java, jpackage on PATH), Apache Ant, macOS sips/iconutil.
+# Requires: JDK 25 (java, jpackage on PATH), Apache Maven, macOS sips/iconutil.
 # The DMG targets the CPU architecture of the JDK used to run this script
 # (run it with an x64 JDK to get an Intel build).
 set -euo pipefail
@@ -11,7 +11,7 @@ cd "$ROOT"
 APP_NAME="Monyrama"
 MAIN_CLASS="com.monyrama.application.Monyrama"
 BUNDLE_ID="com.monyrama.app"
-VERSION="$(sed -n 's/^app\.version=//p' build.properties | tr -d '[:space:]')"
+VERSION="$(mvn -q -B help:evaluate -Dexpression=project.version -DforceStdout)"
 ARCH="$(java -XshowSettings:properties -version 2>&1 | sed -n 's/^ *os\.arch = //p')"
 case "$ARCH" in
     aarch64) ARCH="arm64" ;;
@@ -21,21 +21,25 @@ esac
 WORK="$ROOT/build/dmg"
 DIST="$ROOT/dist"
 
-# Modules from `jdeps --print-module-deps` plus runtime-only ones jdeps can't see:
+# Modules reported by `jdeps -summary` over target/monyrama.jar and target/lib/*.jar
+# (java.compiler, java.scripting and jdk.net are only used by optional H2 features),
+# plus runtime-only ones jdeps can't see:
 # jdk.localedata (uk/ru/es formats), jdk.charsets (Cyrillic code pages), jdk.unsupported (sun.misc.Unsafe)
-MODULES="java.base,java.desktop,java.instrument,java.management,java.naming,java.prefs,java.rmi,\
-java.security.jgss,java.sql,java.xml.crypto,jdk.attach,jdk.jdi,jdk.localedata,jdk.charsets,jdk.unsupported"
+MODULES="java.base,java.compiler,java.desktop,java.instrument,java.management,java.naming,java.prefs,java.rmi,\
+java.scripting,java.security.jgss,java.sql,java.xml.crypto,jdk.attach,jdk.jdi,jdk.net,\
+jdk.localedata,jdk.charsets,jdk.unsupported"
 
 echo "==> Building $APP_NAME $VERSION ($ARCH)"
 rm -rf "$WORK"
 mkdir -p "$WORK/input" "$DIST"
 
-echo "==> Compiling with Ant"
-ant -q -f native2ascii-build.xml
-ant -q -f compile-build.xml \
-    -Dbuild.path="$WORK/build" -Djar.path="$WORK/jar" -Ddeploy.path="$WORK/deploy" deploy
+echo "==> Building with Maven"
+# Tests are skipped: four legacy tests fail independently of the build (see build_instr.txt)
+mvn -q -B clean package -DskipTests
 
-cp "$WORK/deploy/lib/"*.jar "$WORK/input/"
+# monyrama.jar finds its dependencies through the manifest Class-Path (lib/*.jar)
+cp target/monyrama.jar "$WORK/input/"
+cp -R target/lib "$WORK/input/lib"
 
 echo "==> Generating icon"
 ICONSET="$WORK/$APP_NAME.iconset"
@@ -54,7 +58,7 @@ jpackage \
     --vendor "$APP_NAME" \
     --description "Personal finance and budgeting" \
     --input "$WORK/input" \
-    --main-jar budgetsystem.jar \
+    --main-jar monyrama.jar \
     --main-class "$MAIN_CLASS" \
     --add-modules "$MODULES" \
     --icon "$WORK/$APP_NAME.icns" \

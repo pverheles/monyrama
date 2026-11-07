@@ -25,8 +25,8 @@ class MoneyMovementInController<T extends PMoneyMovementIn> extends AbstractCont
 		HibernateUtil.doInTransaction(new Executable() {
 			@Override
 			public void execute(Session session) {
-				session.save(moneyMovementIn);
-				session.update(account);
+				HibernateUtil.saveOrUpdate(session, moneyMovementIn);
+				HibernateUtil.saveOrUpdate(session, account);
 			}
 		});
 		fireCreatedOrUpdated(moneyMovementIn);
@@ -53,10 +53,10 @@ class MoneyMovementInController<T extends PMoneyMovementIn> extends AbstractCont
 		HibernateUtil.doInTransaction(new Executable() {			
 			@Override
 			public void execute(Session session) {
-				session.update(mmInNew);
-				session.update(mmInOldAccount);
+				HibernateUtil.saveOrUpdate(session, mmInNew);
+				HibernateUtil.saveOrUpdate(session, mmInOldAccount);
 				if(!mmInNewAccount.equals(mmInOldAccount)) {
-					session.update(mmInNewAccount);
+					HibernateUtil.saveOrUpdate(session, mmInNewAccount);
 				}			
 			}
 		});
@@ -72,8 +72,8 @@ class MoneyMovementInController<T extends PMoneyMovementIn> extends AbstractCont
 		HibernateUtil.doInTransaction(new Executable() {			
 			@Override
 			public void execute(Session session) {
-				session.delete(moneyMovementIn);
-				session.update(account);
+				HibernateUtil.delete(session, moneyMovementIn);
+				HibernateUtil.saveOrUpdate(session, account);
 			}
 		});
 		fireDeleted(moneyMovementIn);

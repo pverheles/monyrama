@@ -1,11 +1,7 @@
 package com.monyrama.controller;
 
-import com.monyrama.controller.HibernateUtil;
-import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.SelectionQuery;
 
 import com.monyrama.db.enumarations.EntityStates;
 import com.monyrama.entity.PAccount;
@@ -24,15 +20,15 @@ public class DBConditions {
 		boolean result = HibernateUtil.queryInTransaction(new Resultable<Boolean>() {
 			@Override
 			public Boolean getResult(Session session) {
-				Query accountQuery = session.createQuery("select account.id from " + PAccount.class.getSimpleName() + " as account where account.currency = :currency");
+				SelectionQuery<Long> accountQuery = session.createSelectionQuery("select account.id from " + PAccount.class.getSimpleName() + " as account where account.currency = :currency", Long.class);
 				accountQuery.setParameter("currency", currency);
 				accountQuery.setMaxResults(1);
 
-				Query incomeSourceQuery = session.createQuery("select incomeSource.id from " + PIncomeSource.class.getSimpleName() + " as incomeSource where incomeSource.currency = :currency");
+				SelectionQuery<Long> incomeSourceQuery = session.createSelectionQuery("select incomeSource.id from " + PIncomeSource.class.getSimpleName() + " as incomeSource where incomeSource.currency = :currency", Long.class);
 				incomeSourceQuery.setParameter("currency", currency);
 				incomeSourceQuery.setMaxResults(1);
 
-				Query expensePlanQuery = session.createQuery("select expensePlan.id from " + PExpensePlan.class.getSimpleName() + " as expensePlan where expensePlan.currency = :currency");
+				SelectionQuery<Long> expensePlanQuery = session.createSelectionQuery("select expensePlan.id from " + PExpensePlan.class.getSimpleName() + " as expensePlan where expensePlan.currency = :currency", Long.class);
 				expensePlanQuery.setParameter("currency", currency);
 				expensePlanQuery.setMaxResults(1);
 
@@ -49,7 +45,7 @@ public class DBConditions {
 		boolean result = HibernateUtil.queryInTransaction(new Resultable<Boolean>() {
 			@Override
 			public Boolean getResult(Session session) {
-				Query query = session.createQuery("select expenseItem.id from " + PExpensePlanItem.class.getSimpleName() + " as expenseItem where expenseItem.category = :category");
+				SelectionQuery<Long> query = session.createSelectionQuery("select expenseItem.id from " + PExpensePlanItem.class.getSimpleName() + " as expenseItem where expenseItem.category = :category", Long.class);
 				query.setParameter("category", category);
 				query.setMaxResults(1);
 				return query.uniqueResult() != null;
@@ -63,11 +59,11 @@ public class DBConditions {
 		boolean result = HibernateUtil.queryInTransaction(new Resultable<Boolean>() {
 			@Override
 			public Boolean getResult(Session session) {
-				Query moneyMovementInQuery = session.createQuery("select moneyMovementIn.id from " + PMoneyMovementIn.class.getSimpleName() + " as moneyMovementIn where moneyMovementIn.account = :account");
+				SelectionQuery<Long> moneyMovementInQuery = session.createSelectionQuery("select moneyMovementIn.id from " + PMoneyMovementIn.class.getSimpleName() + " as moneyMovementIn where moneyMovementIn.account = :account", Long.class);
 				moneyMovementInQuery.setParameter("account", account);
 				moneyMovementInQuery.setMaxResults(1);
 				
-				Query moneyMovementOutQuery = session.createQuery("select moneyMovementOut.id from " + PMoneyMovementOut.class.getSimpleName() + " as moneyMovementOut where moneyMovementOut.account = :account");
+				SelectionQuery<Long> moneyMovementOutQuery = session.createSelectionQuery("select moneyMovementOut.id from " + PMoneyMovementOut.class.getSimpleName() + " as moneyMovementOut where moneyMovementOut.account = :account", Long.class);
 				moneyMovementOutQuery.setParameter("account", account);
 				moneyMovementOutQuery.setMaxResults(1);
 				
@@ -82,7 +78,7 @@ public class DBConditions {
 		boolean result = HibernateUtil.queryInTransaction(new Resultable<Boolean>() {
 			@Override
 			public Boolean getResult(Session session) {
-				Query query = session.createQuery("select account.id from " + PAccount.class.getSimpleName() + " as account where account.state = :state");
+				SelectionQuery<Long> query = session.createSelectionQuery("select account.id from " + PAccount.class.getSimpleName() + " as account where account.state = :state", Long.class);
 				query.setParameter("state", EntityStates.ACTIVE.getCode());
 				query.setMaxResults(2);
 								
@@ -97,7 +93,7 @@ public class DBConditions {
 		boolean result = HibernateUtil.queryInTransaction(new Resultable<Boolean>() {
 			@Override
 			public Boolean getResult(Session session) {
-				Query query = session.createQuery("select category.id from " + PCategory.class.getSimpleName() + " as category where category.state = :state");
+				SelectionQuery<Long> query = session.createSelectionQuery("select category.id from " + PCategory.class.getSimpleName() + " as category where category.state = :state", Long.class);
 				query.setParameter("state", EntityStates.ACTIVE.getCode());
 				query.setMaxResults(1);
 				return query.uniqueResult() != null;
@@ -111,7 +107,7 @@ public class DBConditions {
 		boolean result = HibernateUtil.queryInTransaction(new Resultable<Boolean>() {
 			@Override
 			public Boolean getResult(Session session) {
-				Query query = session.createQuery("select income.id from " + PIncome.class.getSimpleName() + " as income where income.incomeSource = :incomeSource");
+				SelectionQuery<Long> query = session.createSelectionQuery("select income.id from " + PIncome.class.getSimpleName() + " as income where income.incomeSource = :incomeSource", Long.class);
 				query.setParameter("incomeSource", incomeSource);
 				query.setMaxResults(1);
 				return query.uniqueResult() != null;
@@ -125,12 +121,12 @@ public class DBConditions {
 		return HibernateUtil.queryInTransaction(new Resultable<Boolean>() {
 			@Override
 			public Boolean getResult(Session session) {
-				Criteria criteria = session.createCriteria(PExpensePlanItem.class);
-				criteria.add(Restrictions.eq("expensePlan", expensePlan));
-				criteria.add(Restrictions.eq("state", EntityStates.ACTIVE.getCode()));
-				criteria.setProjection(Projections.rowCount());
-				Number count = (Number) criteria.uniqueResult();	
-				return count.intValue() > 0;
+				Long count = session.createSelectionQuery(
+						"select count(*) from PExpensePlanItem i where i.expensePlan = :expensePlan and i.state = :state", Long.class)
+						.setParameter("expensePlan", expensePlan)
+						.setParameter("state", EntityStates.ACTIVE.getCode())
+						.uniqueResult();
+				return count > 0;
 			}
 		});
 	}	
@@ -139,11 +135,11 @@ public class DBConditions {
 		return HibernateUtil.queryInTransaction(new Resultable<Boolean>() {
 			@Override
 			public Boolean getResult(Session session) {
-				Criteria criteria = session.createCriteria(PExpensePlanItem.class);
-				criteria.add(Restrictions.eq("expensePlan", expensePlan));
-				criteria.setProjection(Projections.rowCount());
-				Number count = (Number) criteria.uniqueResult();	
-				return count.intValue() > 0;
+				Long count = session.createSelectionQuery(
+						"select count(*) from PExpensePlanItem i where i.expensePlan = :expensePlan", Long.class)
+						.setParameter("expensePlan", expensePlan)
+						.uniqueResult();
+				return count > 0;
 			}
 		});
 	}	

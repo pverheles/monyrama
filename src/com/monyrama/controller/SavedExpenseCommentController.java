@@ -1,12 +1,8 @@
 package com.monyrama.controller;
 
 import com.monyrama.entity.PSavedExpenseComment;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +31,7 @@ public class SavedExpenseCommentController {
                 final PSavedExpenseComment commentEntity = new PSavedExpenseComment();
                 commentEntity.setComment(comment);
                 commentEntity.setSavedDate(new Date());
-                session.saveOrUpdate(commentEntity);
+                HibernateUtil.saveOrUpdate(session, commentEntity);
             }
         });
     }
@@ -44,20 +40,12 @@ public class SavedExpenseCommentController {
         return HibernateUtil.queryInTransaction(new Resultable<List<String>>() {
             @Override
             public List<String> getResult(Session session) {
-                Criteria criteria = session.createCriteria(PSavedExpenseComment.class);
-
-                criteria.add(Restrictions.ilike("comment", startText + "%"));
-                criteria.setMaxResults(500);
-                criteria.addOrder(Order.asc("comment").ignoreCase());
-
-                List<PSavedExpenseComment> list = criteria.list();
-
-                List<String> comments = new ArrayList<String>();
-                for(PSavedExpenseComment savedComment : list) {
-                    comments.add(savedComment.getComment());
-                }
-
-                return comments;
+                return session.createSelectionQuery(
+                        "select c.comment from PSavedExpenseComment c where lower(c.comment) like lower(:prefix) order by lower(c.comment)",
+                        String.class)
+                        .setParameter("prefix", startText + "%")
+                        .setMaxResults(500)
+                        .list();
             }
         });
     }

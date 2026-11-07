@@ -5,13 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.monyrama.db.enumarations.EntityStates;
-import com.monyrama.controller.Executable;
-import com.monyrama.controller.Resultable;
-import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 import com.monyrama.db.enumarations.EntityStates;
 import com.monyrama.entity.BaseEntity;
@@ -25,13 +19,11 @@ abstract class AbstractController<T extends BaseEntity> {
 	
 	protected List<ControllerListener<T>> listeners = new ArrayList<ControllerListener<T>>();
 	
-	@SuppressWarnings("unchecked")
 	public List<T> getAll() {
 		return HibernateUtil.queryInTransaction(new Resultable<List<T>>() {
 			@Override
 			public List<T> getResult(Session session) {
-				Criteria crit = session.createCriteria(clazz);
-				return crit.list();
+				return session.createSelectionQuery("from " + clazz.getName(), clazz).list();
 			}			
 		});
 	}
@@ -50,7 +42,7 @@ abstract class AbstractController<T extends BaseEntity> {
 		HibernateUtil.doInTransaction(new Executable() {
 			@Override
 			public void execute(Session session) {
-				session.saveOrUpdate(entity);
+				HibernateUtil.saveOrUpdate(session, entity);
 			}
 		});
 		fireCreatedOrUpdated(entity);
@@ -60,7 +52,7 @@ abstract class AbstractController<T extends BaseEntity> {
 		return HibernateUtil.queryInTransaction(new Resultable<T>() {
 			@Override
 			public T getResult(Session session) {
-				return (T)session.get(clazz, id);
+				return session.find(clazz, id);
 			}			
 		});
 	}
@@ -69,7 +61,7 @@ abstract class AbstractController<T extends BaseEntity> {
 		HibernateUtil.doInTransaction(new Executable() {			
 			@Override
 			public void execute(Session session) {
-				session.delete(idable);
+				HibernateUtil.delete(session, idable);
 			}
 		});
 		fireDeleted(idable);
@@ -82,7 +74,7 @@ abstract class AbstractController<T extends BaseEntity> {
 			@Override
 			public void execute(Session session) {
 				entity.setState(state.getCode());
-				session.saveOrUpdate(entity);
+				HibernateUtil.saveOrUpdate(session, entity);
 			}
 		});
 		fireCreatedOrUpdated(entity);
@@ -100,9 +92,9 @@ abstract class AbstractController<T extends BaseEntity> {
 		return HibernateUtil.queryInTransaction(new Resultable<List<T>>() {
 			@Override
 			public List<T> getResult(Session session) {
-				Criteria crit = session.createCriteria(clazz);
-				crit.add(Restrictions.eq("state", state.getCode()));
-				List<T> entities = crit.list();
+				List<T> entities = session.createSelectionQuery("from " + clazz.getName() + " e where e.state = :state", clazz)
+						.setParameter("state", state.getCode())
+						.list();
 				
 				Collections.sort(entities, new Comparator<T>() {
 					@Override
@@ -132,8 +124,7 @@ abstract class AbstractController<T extends BaseEntity> {
 		return HibernateUtil.queryInTransaction(new Resultable<Long>() {
 			@Override
 			public Long getResult(Session session) {
-				Query query = session.createQuery("select count(*) from " + clazz.getSimpleName());
-				return (Long)query.uniqueResult();
+				return session.createSelectionQuery("select count(*) from " + clazz.getName(), Long.class).uniqueResult();
 			}
 		});
 	}
