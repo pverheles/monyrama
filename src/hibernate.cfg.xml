@@ -8,7 +8,9 @@
 
 		<property name="hibernate.connection.username">user</property>
 		<property name="hibernate.connection.password">password</property>
-		<property name="hibernate.connection.pool_size">1</property>
+		<!-- Hibernate 7 enforces this as a hard maximum (Hibernate 3 opened extra connections on demand).
+		     Transactions nest (e.g. CategoryController.getDefaultCategory) and run on background threads. -->
+		<property name="hibernate.connection.pool_size">10</property>
 		<property name="hibernate.current_session_context_class">thread</property>
 		<property name="hibernate.show_sql">true</property>		
 		<property name="hibernate.hbm2ddl.auto">update</property>
