@@ -60,6 +60,7 @@ jpackage \
     --input "$WORK/input" \
     --main-jar monyrama.jar \
     --main-class "$MAIN_CLASS" \
+    --java-options "--enable-native-access=ALL-UNNAMED" \
     --add-modules "$MODULES" \
     --icon "$WORK/$APP_NAME.icns" \
     --mac-package-identifier "$BUNDLE_ID" \
