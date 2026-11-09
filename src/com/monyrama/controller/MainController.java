@@ -219,6 +219,9 @@ public class MainController {
 	            	for(PCurrency currency : allCurrencies) {
 	            		if(currency.getStandard() && currency.getUpdateOnline()) {
 	            			BigDecimal newRate = ExchangeRatesController.instance().getRate(currency.getCode());
+	            			if (newRate.signum() == 0) {
+	            				continue; // rate unknown, keep the stored one
+	            			}
 	            			currency.setExchangeRate(newRate);
 	            			CurrencyController.instance().createOrUpdate(currency);
 	            		}
