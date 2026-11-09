@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.SystemColor;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.math.BigDecimal;
@@ -47,7 +46,7 @@ public class TotalSumsPanel extends JPanel {
 		centerPanel.setBorder(new TitledBorder(null, Resources.getString("labels.totalsumbycurrency"),
 	                        TitledBorder.DEFAULT_JUSTIFICATION,
 	                        TitledBorder.DEFAULT_POSITION, null,
-	                        SystemColor.activeCaption));
+	                        null));
 	    		
         sumsScrollPane = new JScrollPane();
 
@@ -65,7 +64,7 @@ public class TotalSumsPanel extends JPanel {
 		southPanel.setBorder(new TitledBorder(null, Resources.getString("labels.totalsumincurrency"),
 	                        TitledBorder.DEFAULT_JUSTIFICATION,
 	                        TitledBorder.DEFAULT_POSITION, null,
-	                        SystemColor.activeCaption));
+	                        null));
 		
 		final JLabel currencyLabel = new JLabel(Resources.getString("labels.currency") + ":");
 		GridBagConstraints gridBagConstraints = new GridBagConstraints();

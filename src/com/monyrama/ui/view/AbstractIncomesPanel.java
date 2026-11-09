@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -81,7 +80,6 @@ abstract class AbstractIncomesPanel extends GeneralPanel {
 
 	private JTabbedPane getCentralPanel() {
 		final JTabbedPane tabbedPane = new JTabbedPane();
-		tabbedPane.setForeground(SystemColor.activeCaption);
 		tabbedPane.addTab(Resources.getString("labels.incomes.items"), Resources.getIcon("items.png"), getItemsPanel());
 		return tabbedPane;
 	}
@@ -89,7 +87,7 @@ abstract class AbstractIncomesPanel extends GeneralPanel {
 	private JPanel getTopPanel() {
         JPanel topPanel = new JPanel();
         
-        topPanel.setBorder(new TitledBorder(null, Resources.getString("labels.incomes.source"), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, SystemColor.activeCaption));
+        topPanel.setBorder(new TitledBorder(null, Resources.getString("labels.incomes.source"), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
 		
 		java.awt.GridBagConstraints gridBagConstraints;
 

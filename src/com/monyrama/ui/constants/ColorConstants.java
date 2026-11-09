@@ -31,15 +31,41 @@ import java.awt.SystemColor;
  *
  */
 public class ColorConstants {
-	public static final Color BLOCKED_COLOR = new Color(220, 220, 220);
-	public static final Color BE_ATTANTIVE_COLOR = new Color(255, 200, 200); 	
+	public static Color BLOCKED_COLOR;
+	public static Color BE_ATTANTIVE_COLOR; 	
 	public static final Color ERROR_COLOR = SystemColor.RED;	
-	public static final Color USED = new Color(192, 251, 192); 	
-	public static final Color SELECTED_BACKGROUND = new Color(135, 206, 250);
-	public static final Color SELECTED_FOREGROUND = new Color(0, 0, 205);
+	public static Color USED; 	
+	public static Color SELECTED_BACKGROUND;
+	public static Color SELECTED_FOREGROUND;
 	public static final Color SPLASH_TITLE = new Color(0, 0, 200);
 	public static final Color ASTERICS_COLOR = Color.RED;
-	public static final Color MAIN_CURRENCY_COLOR = new Color(255, 255, 153);
+	public static Color MAIN_CURRENCY_COLOR;
 	public static final Color ACTIVE_NAVIGATION_TAB_FONT_COLOR = Color.BLUE;
 	public static final Color INACTIVE_NAVIGATION_TAB_FONT_COLOR = Color.GRAY;
+
+	static {
+		usePalette(false);
+	}
+
+	/**
+	 * Row highlight and selection colors. Tables read them when painting, so a dark theme
+	 * needs dark tints (the light pastels would sit under light text).
+	 */
+	public static void usePalette(boolean dark) {
+		if (dark) {
+			BLOCKED_COLOR = new Color(72, 72, 72);
+			BE_ATTANTIVE_COLOR = new Color(110, 45, 50);
+			USED = new Color(40, 80, 50);
+			SELECTED_BACKGROUND = new Color(38, 79, 120);
+			SELECTED_FOREGROUND = Color.WHITE;
+			MAIN_CURRENCY_COLOR = new Color(95, 88, 35);
+		} else {
+			BLOCKED_COLOR = new Color(220, 220, 220);
+			BE_ATTANTIVE_COLOR = new Color(255, 200, 200);
+			USED = new Color(192, 251, 192);
+			SELECTED_BACKGROUND = new Color(135, 206, 250);
+			SELECTED_FOREGROUND = new Color(0, 0, 205);
+			MAIN_CURRENCY_COLOR = new Color(255, 255, 153);
+		}
+	}
 }

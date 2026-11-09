@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Point;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -109,7 +108,7 @@ public class LendPanel extends GeneralPanel {
         table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         JPanel southPanel = new JPanel();
-        southPanel.setBorder(new TitledBorder(null, Resources.getString("labels.totaldepositorysum"), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, SystemColor.activeCaption));
+        southPanel.setBorder(new TitledBorder(null, Resources.getString("labels.totaldepositorysum"), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         southPanel.setLayout(new BorderLayout());
 
         totalSumsPanel = new TotalSumsPanel();

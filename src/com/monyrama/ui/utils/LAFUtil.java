@@ -4,7 +4,12 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.monyrama.preferences.ThemeEnum;
+import com.monyrama.ui.constants.ColorConstants;
 
 import de.muntjak.tinylookandfeel.Theme;
 import de.muntjak.tinylookandfeel.TinyLookAndFeel;
@@ -19,6 +24,12 @@ public class LAFUtil {
 			} else {
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());	
 			}
+			break;
+		case FLAT_LIGHT:
+			UIManager.setLookAndFeel(OSUtil.isMac() ? new FlatMacLightLaf() : new FlatLightLaf());
+			break;
+		case FLAT_DARK:
+			UIManager.setLookAndFeel(OSUtil.isMac() ? new FlatMacDarkLaf() : new FlatDarkLaf());
 			break;
 		case SILVER:
     		setTinyLAF("Silver");
@@ -42,6 +53,7 @@ public class LAFUtil {
 			break;
 		}
 		
+		ColorConstants.usePalette(theme == ThemeEnum.FLAT_DARK);
 		SwingUtilities.updateComponentTreeUI(rootFrame);
 	}
 

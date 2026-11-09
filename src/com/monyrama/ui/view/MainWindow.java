@@ -216,6 +216,15 @@ public class MainWindow extends JFrame {
 		systemItem.setAction(systemAppearanceAction);
 		systemItem.setIcon(themePref.equals(systemAppearanceAction.getTheme()) ? tickIcon : null);
 		appearanceMenu.add(systemItem);
+
+		for (ThemeEnum flatTheme : new ThemeEnum[] {ThemeEnum.FLAT_LIGHT, ThemeEnum.FLAT_DARK}) {
+			JMenuItem flatItem = new JMenuItem();
+			String labelKey = flatTheme == ThemeEnum.FLAT_LIGHT ? "options.appearance.flatlight" : "options.appearance.flatdark";
+			ChangeAppearanceAction flatAction = new ChangeAppearanceAction(Resources.getString(labelKey), flatTheme, appearanceMenu, flatItem);
+			flatItem.setAction(flatAction);
+			flatItem.setIcon(themePref.equals(flatTheme) ? tickIcon : null);
+			appearanceMenu.add(flatItem);
+		}
 		
 		JMenuItem plasticItem = new JMenuItem();		
 		ChangeAppearanceAction plasticAppearanceAction = new ChangeAppearanceAction(Resources.getString("options.appearance.plastic"), ThemeEnum.PLASTIC, appearanceMenu, plasticItem);

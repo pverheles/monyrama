@@ -294,7 +294,7 @@ abstract class AbstractExpensePanel extends GeneralPanel {
         emptyPanelConstraints.weightx = 1.0;
         topPanel.add(new JPanel(), emptyPanelConstraints);
         
-        topPanel.setBorder(new TitledBorder(null, Resources.getString("labels.expenses.plan"), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, SystemColor.activeCaption));
+        topPanel.setBorder(new TitledBorder(null, Resources.getString("labels.expenses.plan"), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
 		
 		return topPanel;
 	}
@@ -338,7 +338,6 @@ abstract class AbstractExpensePanel extends GeneralPanel {
 	 */
 	private JTabbedPane getCentralPanel() {
 		final JTabbedPane tabbedPane = new JTabbedPane();
-		tabbedPane.setForeground(SystemColor.activeCaption);
 		tabbedPane.insertTab(ExpensesTabEnum.ITEMS.getName(), Resources.getIcon("items.png"), getItemsPanel(), null, ExpensesTabEnum.ITEMS.getIndex());
 		tabbedPane.insertTab(ExpensesTabEnum.EXPENSES.getName(), Resources.getIcon("expenses.png"), getExpensesPanel(), null, ExpensesTabEnum.EXPENSES.getIndex());		
 		return tabbedPane;

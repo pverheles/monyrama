@@ -6,7 +6,6 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -105,7 +104,7 @@ public class ExpenseSearchPanel extends GeneralPanel {
                .setBorder(new TitledBorder(null, Resources.getString("labels.searchparams"),
                         TitledBorder.DEFAULT_JUSTIFICATION,
                         TitledBorder.DEFAULT_POSITION, null,
-                        SystemColor.activeCaption));
+                        null));
         final FlowLayout flowLayout = new FlowLayout();
         flowLayout.setAlignment(FlowLayout.LEFT);
         northPanel.setLayout(flowLayout);
@@ -312,7 +311,7 @@ public class ExpenseSearchPanel extends GeneralPanel {
                 .setBorder(new TitledBorder(null, Resources.getString("labels.resulttable"),
                         TitledBorder.DEFAULT_JUSTIFICATION,
                         TitledBorder.DEFAULT_POSITION, null,
-                        SystemColor.activeCaption));
+                        null));
         centerPanel.setLayout(new BorderLayout());
         // add(centerPanel, BorderLayout.CENTER);
 
