@@ -7,7 +7,9 @@ import java.awt.Container;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.UIDefaults;
 import javax.swing.UIManager;
+import javax.swing.plaf.DimensionUIResource;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -32,9 +34,11 @@ public class LAFUtil {
 			break;
 		case FLAT_LIGHT:
 			UIManager.setLookAndFeel(OSUtil.isMac() ? new FlatMacLightLaf() : new FlatLightLaf());
+			showTableGrid();
 			break;
 		case FLAT_DARK:
 			UIManager.setLookAndFeel(OSUtil.isMac() ? new FlatMacDarkLaf() : new FlatDarkLaf());
+			showTableGrid();
 			break;
 		case SILVER:
     		setTinyLAF("Silver");
@@ -62,6 +66,17 @@ public class LAFUtil {
 		ColorConstants.usePalette(theme == ThemeEnum.FLAT_DARK);
 		SwingUtilities.updateComponentTreeUI(rootFrame);
 		updateTableSelectionColors(rootFrame, oldSelectionBackground);
+	}
+
+	/**
+	 * FlatLaf hides table grid lines by default; show the full grid. These are the current
+	 * look and feel's own defaults, so other themes are not affected.
+	 */
+	private static void showTableGrid() {
+		UIDefaults defaults = UIManager.getLookAndFeelDefaults();
+		defaults.put("Table.showHorizontalLines", true);
+		defaults.put("Table.showVerticalLines", true);
+		defaults.put("Table.intercellSpacing", new DimensionUIResource(1, 1));
 	}
 
 	/**
