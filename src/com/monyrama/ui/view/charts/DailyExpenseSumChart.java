@@ -54,6 +54,7 @@ public class DailyExpenseSumChart extends JFrame {
         String title = Resources.getString("charts.labels.dailyexpense") + " (" + Resources.getString("labels.expenses.plan") + ": " + expensesPlanName + ")";
 
         JFreeChart chart = createChart(xyDataset, title);
+        ChartTheme.apply(chart);
         ChartPanel chartPanel = new ChartPanel(chart);
         JScrollPane scrollPane = new JScrollPane(chartPanel);
 		setContentPane(scrollPane);

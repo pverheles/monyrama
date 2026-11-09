@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
+import javax.swing.UIManager;
+import com.monyrama.ui.constants.ColorConstants;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -61,7 +63,7 @@ public class PBVPCalculator extends JDialog {
 		textfield = new JTextField();
 		textfield.setText("0");
 		textfield.setEditable(false);
-		textfield.setBackground(Color.WHITE);
+		textfield.setBackground(ColorConstants.isDark() ? UIManager.getColor("TextField.background") : Color.WHITE);
 		textfield.setHorizontalAlignment(JTextField.RIGHT);
 		textfield.setFont(BIGGER_FONT);
 

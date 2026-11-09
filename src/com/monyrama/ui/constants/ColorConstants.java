@@ -51,7 +51,15 @@ public class ColorConstants {
 	 * Row highlight and selection colors. Tables read them when painting, so a dark theme
 	 * needs dark tints (the light pastels would sit under light text).
 	 */
+	private static boolean dark;
+
+	/** True when the active theme is a dark one */
+	public static boolean isDark() {
+		return dark;
+	}
+
 	public static void usePalette(boolean dark) {
+		ColorConstants.dark = dark;
 		if (dark) {
 			BLOCKED_COLOR = new Color(72, 72, 72);
 			BE_ATTANTIVE_COLOR = new Color(110, 45, 50);

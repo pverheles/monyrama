@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import com.monyrama.ui.constants.ColorConstants;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import com.monyrama.ui.components.JTextFieldLimited;
@@ -40,7 +41,7 @@ public class Calculator extends JFrame {
 		textfield = new JTextFieldLimited(20);
 		textfield.setText("0");
 		textfield.setEditable(false);
-		textfield.setBackground(Color.WHITE);
+		textfield.setBackground(ColorConstants.isDark() ? UIManager.getColor("TextField.background") : Color.WHITE);
 		textfield.setHorizontalAlignment(JTextField.RIGHT);
 		textfield.setFont(BIGGER_FONT);
 

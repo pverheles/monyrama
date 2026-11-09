@@ -53,6 +53,7 @@ public class IncomeByDateSumChart extends JFrame {
         String title = Resources.getString("charts.labels.incomebydate") + " (" + Resources.getString("labels.incomes.source") + ": " + incomeSourceName + ")";
 
         JFreeChart chart = createChart(xyDataset, title);        
+        ChartTheme.apply(chart);
         JScrollPane scrollPane = new JScrollPane(new ChartPanel(chart));
 		setContentPane(scrollPane);
 		

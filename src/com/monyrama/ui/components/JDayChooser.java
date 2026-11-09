@@ -39,6 +39,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import com.monyrama.ui.constants.ColorConstants;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -99,12 +101,7 @@ public class JDayChooser extends JPanel implements ActionListener, KeyListener,
         dayPanel = new JPanel();
         dayPanel.setLayout(new GridLayout(7, 7));
 
-        sundayForeground = new Color(164, 0, 0);
-        weekdayForeground = new Color(0, 90, 164);
-
-        // decorationBackgroundColor = new Color(194, 211, 252);
-        // decorationBackgroundColor = new Color(206, 219, 246);
-        decorationBackgroundColor = new Color(210, 228, 238);
+        chooseThemeColors();
 
         for (int y = 0; y < 7; y++) {
             for (int x = 0; x < 7; x++) {
@@ -155,7 +152,7 @@ public class JDayChooser extends JPanel implements ActionListener, KeyListener,
             weeks[i].setMargin(new Insets(0, 0, 0, 0));
             weeks[i].setFocusPainted(false);
             weeks[i].setBackground(decorationBackgroundColor);
-            weeks[i].setForeground(new Color(100, 100, 100));
+            weeks[i].setForeground(weekNumberForeground());
 
             weeks[i].setContentAreaFilled(decorationBackgroundVisible);
             weeks[i].setBorderPainted(decorationBordersVisible);
@@ -186,7 +183,7 @@ public class JDayChooser extends JPanel implements ActionListener, KeyListener,
     protected void init() {
         JButton testButton = new JButton();
         oldDayBackgroundColor = testButton.getBackground();
-        selectedColor = new Color(160, 160, 160);
+        selectedColor = ColorConstants.isDark() ? ColorConstants.SELECTED_BACKGROUND : new Color(160, 160, 160);
 
         Date date = calendar.getTime();
         calendar = Calendar.getInstance(locale);
@@ -194,6 +191,38 @@ public class JDayChooser extends JPanel implements ActionListener, KeyListener,
 
         drawDayNames();
         drawDays();
+    }
+
+    /**
+     * Colors for the light themes, or dark equivalents when a dark theme is active.
+     */
+    private void chooseThemeColors() {
+        boolean dark = ColorConstants.isDark();
+        sundayForeground = dark ? new Color(240, 120, 120) : new Color(164, 0, 0);
+        weekdayForeground = dark ? new Color(120, 175, 240) : new Color(0, 90, 164);
+        decorationBackgroundColor = dark ? new Color(60, 63, 65) : new Color(210, 228, 238);
+    }
+
+    private static Color weekNumberForeground() {
+        return ColorConstants.isDark() ? new Color(150, 150, 150) : new Color(100, 100, 100);
+    }
+
+    /**
+     * Re-applies the theme colors after the look and feel changes.
+     */
+    @Override
+    public void updateUI() {
+        super.updateUI();
+        if (days != null && calendar != null) {
+            chooseThemeColors();
+            setDecorationBackgroundColor(decorationBackgroundColor);
+            if (weeks != null) {
+                for (JButton week : weeks) {
+                    week.setForeground(weekNumberForeground());
+                }
+            }
+            init();
+        }
     }
 
     /**

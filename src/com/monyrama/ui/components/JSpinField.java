@@ -28,6 +28,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.UIManager;
+import com.monyrama.ui.constants.ColorConstants;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -135,7 +137,7 @@ public class JSpinField extends JPanel implements ChangeListener, CaretListener,
 
 		if (updateTextField) {
 			textField.setText(Integer.toString(value));
-			textField.setForeground(Color.black);
+			textField.setForeground(ColorConstants.isDark() ? UIManager.getColor("TextField.foreground") : Color.black);
 		}
 
 		if(firePropertyChange) {

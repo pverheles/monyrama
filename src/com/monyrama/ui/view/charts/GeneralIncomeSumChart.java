@@ -89,6 +89,7 @@ public class GeneralIncomeSumChart extends JFrame {
         JFreeChart chart = new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT, plot, false);
         chart.setBackgroundPaint(java.awt.Color.WHITE);
        		
+        ChartTheme.apply(chart);
         JScrollPane scrollPane = new JScrollPane(new ChartPanel(chart));
 		setContentPane(scrollPane);
 		

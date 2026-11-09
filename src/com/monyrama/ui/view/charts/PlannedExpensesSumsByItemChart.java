@@ -36,6 +36,7 @@ public class PlannedExpensesSumsByItemChart extends JFrame {
 		pp.setLabelGap(0.02);
 		
 		setTitle(title);
+        ChartTheme.apply(jfc);
         JScrollPane scrollPane = new JScrollPane(new ChartPanel(jfc));
 		setContentPane(scrollPane);		
 		setSize(850, 600);				

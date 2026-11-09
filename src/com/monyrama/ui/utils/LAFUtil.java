@@ -1,6 +1,11 @@
 package com.monyrama.ui.utils;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+
 import javax.swing.JFrame;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -53,8 +58,28 @@ public class LAFUtil {
 			break;
 		}
 		
+		Color oldSelectionBackground = ColorConstants.SELECTED_BACKGROUND;
 		ColorConstants.usePalette(theme == ThemeEnum.FLAT_DARK);
 		SwingUtilities.updateComponentTreeUI(rootFrame);
+		updateTableSelectionColors(rootFrame, oldSelectionBackground);
+	}
+
+	/**
+	 * Tables get the palette selection colors once, when they are built; repaint them with the new palette.
+	 */
+	private static void updateTableSelectionColors(Container container, Color oldSelectionBackground) {
+		if (container == null) {
+			return;
+		}
+		for (Component component : container.getComponents()) {
+			if (component instanceof JTable table && oldSelectionBackground.equals(table.getSelectionBackground())) {
+				table.setSelectionBackground(ColorConstants.SELECTED_BACKGROUND);
+				table.setSelectionForeground(ColorConstants.SELECTED_FOREGROUND);
+			}
+			if (component instanceof Container child) {
+				updateTableSelectionColors(child, oldSelectionBackground);
+			}
+		}
 	}
 
 	private static void setTinyLAF(String themeName) throws Exception {			
